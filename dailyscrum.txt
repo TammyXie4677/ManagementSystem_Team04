@@ -1,0 +1,36 @@
+<< current date goes here >>
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+Example entries for one day, both team members:
+
+2024/11/19 Yunting Xie
+1. Done / not done since last scrum:
+- working on the project proposal 
+- Created a git repository for project
+- Created a Trello to share with all team members
+2. To do until next Scrum:
+- Continue to work on the project proposal
+- Creating 10 "User Stories" in Trello Board
+- Adding checklist at least 3 per User Story
+3. Need assistance / figure things out
+- 
+
+2024/11/19 Qiutian Wang
+1. Done / not done since last scrum:
+- 
+2. To do until next Scrum:
+- 
+- 
+3. Need assistance / figure things out
+- 
+
+2024/11/19 Kejia Li
+1. Done / not done since last scrum:
+- 
+2. To do until next Scrum:
+- 
+- 
+3. Need assistance / figure things out
+- 
