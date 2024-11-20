@@ -37,8 +37,8 @@ Example entries for one day, both team members:
 
 2024/11/20 Yunting Xie
 1. Done / not done since last scrum:
-- Created a SQl database on Miscrosoft Aruze
-- Created all necessary tables on Miscrosoft SQL management studio
+- Created a SQl database on Microsoft Aruze
+- Created all necessary tables on Microsoft SQL management studio
 2. To do until next Scrum:
 - Continue to work on the project proposal and submit it
 - Continue to create 10 "User Stories" in Trello Board
