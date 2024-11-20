@@ -34,3 +34,32 @@ Example entries for one day, both team members:
 - 
 3. Need assistance / figure things out
 - 
+
+2024/11/20 Yunting Xie
+1. Done / not done since last scrum:
+- Created a SQl database on Miscrosoft Aruze
+- Created all necessary tables on Miscrosoft SQL management studio
+2. To do until next Scrum:
+- Continue to work on the project proposal and submit it
+- Continue to create 10 "User Stories" in Trello Board
+- continue to add checklist at least 3 per User Story
+3. Need assistance / figure things out
+- 
+
+2024/11/20 Qiutian Wang
+1. Done / not done since last scrum:
+- 
+2. To do until next Scrum:
+- 
+- 
+3. Need assistance / figure things out
+- 
+
+2024/11/20 Kejia Li
+1. Done / not done since last scrum:
+- 
+2. To do until next Scrum:
+- 
+- 
+3. Need assistance / figure things out
+- 
