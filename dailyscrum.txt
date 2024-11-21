@@ -63,3 +63,31 @@ Example entries for one day, both team members:
 - 
 3. Need assistance / figure things out
 - 
+
+2024/11/21 Yunting Xie
+1. Done / not done since last scrum:
+- Created 10 "User Stories" in Trello Board and add checklists
+- Submitted Proposal 
+2. To do until next Scrum:
+- Database setup and connect
+- Users register and login
+3. Need assistance / figure things out
+- 
+
+2024/11/21 Qiutian Wang
+1. Done / not done since last scrum:
+- 
+2. To do until next Scrum:
+- 
+- 
+3. Need assistance / figure things out
+- 
+
+2024/11/21 Kejia Li
+1. Done / not done since last scrum:
+- 
+2. To do until next Scrum:
+- 
+- 
+3. Need assistance / figure things out
+-
