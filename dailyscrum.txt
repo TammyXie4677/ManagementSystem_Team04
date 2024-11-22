@@ -28,10 +28,10 @@ Example entries for one day, both team members:
 
 2024/11/19 Kejia Li
 1. Done / not done since last scrum:
-- 
+- working on the project proposal 
 2. To do until next Scrum:
-- 
-- 
+- Continue to work on the project proposal
+- Create "User Stories" in Trello Board
 3. Need assistance / figure things out
 - 
 
@@ -57,9 +57,10 @@ Example entries for one day, both team members:
 
 2024/11/20 Kejia Li
 1. Done / not done since last scrum:
-- 
+- Continue to work on the project proposal
+- Create "User Stories" in Trello Board
 2. To do until next Scrum:
-- 
+- add checklist to User Story
 - 
 3. Need assistance / figure things out
 - 
@@ -85,9 +86,9 @@ Example entries for one day, both team members:
 
 2024/11/21 Kejia Li
 1. Done / not done since last scrum:
-- 
+- add checklist to User Story
 2. To do until next Scrum:
-- 
+- start to do customer dashboard page
 - 
 3. Need assistance / figure things out
 -
