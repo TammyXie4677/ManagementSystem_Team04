@@ -19,10 +19,11 @@ Example entries for one day, both team members:
 
 2024/11/19 Qiutian Wang
 1. Done / not done since last scrum:
-- 
+- working on the project proposal 
+- design the diagrams
 2. To do until next Scrum:
-- 
-- 
+- Continue to work on the project proposal
+
 3. Need assistance / figure things out
 - 
 
@@ -48,9 +49,11 @@ Example entries for one day, both team members:
 
 2024/11/20 Qiutian Wang
 1. Done / not done since last scrum:
-- 
+- connect to team database
+- verify database tables
+- finalize project proposal
 2. To do until next Scrum:
-- 
+- complete the Trello Board
 - 
 3. Need assistance / figure things out
 - 
@@ -77,10 +80,10 @@ Example entries for one day, both team members:
 
 2024/11/21 Qiutian Wang
 1. Done / not done since last scrum:
-- 
+- database set up
 2. To do until next Scrum:
-- 
-- 
+- continue working on Trello board
+- split tasks
 3. Need assistance / figure things out
 - 
 
