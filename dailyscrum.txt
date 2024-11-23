@@ -98,11 +98,9 @@ Example entries for one day, both team members:
 
 2024/11/22 Yunting Xie
 1. Done / not done since last scrum:
-- 
-- 
+- Dasebase Connected
 2. To do until next Scrum:
-- 
-- 
+- Continue to work "Users register and login"
 3. Need assistance / figure things out
 - 
 
