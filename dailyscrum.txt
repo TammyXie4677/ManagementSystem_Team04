@@ -108,9 +108,10 @@ Example entries for one day, both team members:
 
 2024/11/22 Qiutian Wang
 1. Done / not done since last scrum:
-- 
+- split tasks
+- create checklists for my tasks
 2. To do until next Scrum:
-- 
+- start working on 'customer can view loyalty points'
 - 
 3. Need assistance / figure things out
 - 
