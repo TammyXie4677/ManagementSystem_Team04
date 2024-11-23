@@ -95,3 +95,31 @@ Example entries for one day, both team members:
 - 
 3. Need assistance / figure things out
 -
+
+2024/11/22 Yunting Xie
+1. Done / not done since last scrum:
+- 
+- 
+2. To do until next Scrum:
+- 
+- 
+3. Need assistance / figure things out
+- 
+
+2024/11/22 Qiutian Wang
+1. Done / not done since last scrum:
+- 
+2. To do until next Scrum:
+- 
+- 
+3. Need assistance / figure things out
+- 
+
+2024/11/22 Kejia Li
+1. Done / not done since last scrum:
+- split task
+- talk about the redeem rules
+2. To do until next Scrum:
+- start to do admin dashboard page
+- 
+3. Need assistance / figure things out
