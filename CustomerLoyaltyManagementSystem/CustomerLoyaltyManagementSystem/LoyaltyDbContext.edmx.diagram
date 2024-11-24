@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a0b5f9b453654198b9ad36adcd3c131c" Name="Diagram1">
+        <EntityTypeShape EntityType="managementsystem_dbModel.Customer" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="managementsystem_dbModel.LoyaltyProgram" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="managementsystem_dbModel.Report" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="managementsystem_dbModel.sysdiagram" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="managementsystem_dbModel.TransactionLoyalty" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="managementsystem_dbModel.User" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
+        <AssociationConnector Association="managementsystem_dbModel.FK_Customer_User" ManuallyRouted="false" />
+        <AssociationConnector Association="managementsystem_dbModel.FK_TransactionLoyalty_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="managementsystem_dbModel.FK_TransactionLoyalty_Program" ManuallyRouted="false" />
+        <AssociationConnector Association="managementsystem_dbModel.FK_Report_CreatedBy" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

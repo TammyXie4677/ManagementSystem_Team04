@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\CustomerLoyaltyManagementSystem",
+    "\\CustomerLoyaltyManagementSystem\\CustomerLoyaltyManagementSystem"
   ],
+  "SelectedNode": "\\CustomerLoyaltyManagementSystem\\CustomerLoyaltyManagementSystem\\MainWindow.xaml",
   "PreviewInSolutionExplorer": false
 }
