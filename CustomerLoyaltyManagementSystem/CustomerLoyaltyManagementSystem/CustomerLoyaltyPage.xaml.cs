@@ -93,5 +93,12 @@ namespace CustomerLoyaltyManagementSystem
             public string Details { get; set; }
             public string Date { get; set; }
         }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
+        }
     }
 }
