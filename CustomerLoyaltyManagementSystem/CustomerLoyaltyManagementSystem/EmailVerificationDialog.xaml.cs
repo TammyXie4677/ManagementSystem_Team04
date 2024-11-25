@@ -19,9 +19,11 @@ namespace CustomerLoyaltyManagementSystem
     /// </summary>
     public partial class EmailVerificationDialog : Window
     {
-        public EmailVerificationDialog()
+        private string userEmail;
+        public EmailVerificationDialog(string email)
         {
             InitializeComponent();
+            userEmail = email;
         }
 
         private void VerifyButton_Click(object sender, RoutedEventArgs e)
