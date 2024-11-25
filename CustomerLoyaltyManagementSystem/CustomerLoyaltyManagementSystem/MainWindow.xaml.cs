@@ -24,9 +24,10 @@ namespace CustomerLoyaltyManagementSystem
         public MainWindow()
         {
             InitializeComponent();
-            DatabaseConnection(); // Call the method when the window is loaded
+           // DatabaseConnection(); // Call the method when the window is loaded
         }
 
+        /*
         private void DatabaseConnection()
         {
             try
@@ -49,5 +50,20 @@ namespace CustomerLoyaltyManagementSystem
                 MessageBox.Show("Error: " + ex.Message, "Database Connection Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-    }
+        */
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
+            this.Close(); 
+        }
+
+        private void SignUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            Registration registration = new Registration();
+            registration.Show();
+            this.Close();
+        }
+    } 
 }
