@@ -12,31 +12,22 @@
 
             <!-- Main Content Section -->
             <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center" MaxWidth="600">
-                <!-- Customer Information Card -->
+                <!-- Combined Information Card -->
                 <Border Background="White" Padding="20" Margin="0,0,0,30" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" 
-                        Height="150" Effect="{DynamicResource ShadowEffect}">
+                        Height="200" Effect="{DynamicResource ShadowEffect}">
                     <StackPanel>
-                        <TextBlock Text="Customer Information" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,15" Foreground="#2A9D8F"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
-                            <TextBlock Text="Username:" FontSize="16" FontWeight="Bold" Foreground="#555" Width="120"/>
-                            <TextBlock x:Name="UsernameText" FontSize="16" Foreground="#333"/>
-                        </StackPanel>
+                        <TextBlock Text="Customer Loyalty Details" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,15" Foreground="#2A9D8F"/>
+                        <!-- Email -->
                         <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
                             <TextBlock Text="Email:" FontSize="16" FontWeight="Bold" Foreground="#555" Width="120"/>
                             <TextBlock x:Name="EmailText" FontSize="16" Foreground="#333"/>
                         </StackPanel>
-                    </StackPanel>
-                </Border>
-
-                <!-- Loyalty Details Card -->
-                <Border Background="White" Padding="20" Margin="0,0,0,30" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" 
-                        Height="150" Effect="{DynamicResource ShadowEffect}">
-                    <StackPanel>
-                        <TextBlock Text="Loyalty Details" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,15" Foreground="#2A9D8F"/>
+                        <!-- Total Loyalty Points -->
                         <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
                             <TextBlock Text="Total Points:" FontSize="16" FontWeight="Bold" Foreground="#555" Width="120"/>
                             <TextBlock x:Name="TotalPointsText" FontSize="16" Foreground="#333"/>
                         </StackPanel>
+                        <!-- Tier -->
                         <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
                             <TextBlock Text="Tier:" FontSize="16" FontWeight="Bold" Foreground="#555" Width="120"/>
                             <TextBlock x:Name="TierText" FontSize="16" Foreground="#333"/>

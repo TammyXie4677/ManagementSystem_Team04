@@ -51,13 +51,11 @@ namespace CustomerLoyaltyManagementSystem
                 if (reader.Read())
                 {
                     // Extract data from the reader and assign it to UI elements
-                    string username = reader["UserID"].ToString();
                     int loyaltyPoints = Convert.ToInt32(reader["LoyaltyPoints"]);
                     string tier = reader["Tier"].ToString();
                     string email = reader["Email"].ToString();
 
                     // Assign values to the TextBlock elements in the UI
-                    UsernameText.Text = $"{username}";
                     TotalPointsText.Text = $"{loyaltyPoints}";
                     TierText.Text = $"{tier}";
                     EmailText.Text = $"{email}";
