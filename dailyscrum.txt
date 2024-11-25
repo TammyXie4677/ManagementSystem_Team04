@@ -126,9 +126,11 @@ Example entries for one day, both team members:
 
 2024/11/24 Yunting Xie
 1. Done / not done since last scrum:
-- 
+- Finished Login.xaml
+- Finished Registration.xaml
 2. To do until next Scrum:
-- 
+- To finish both of this two logics
+- Add a Email verify
 3. Need assistance / figure things out
 - 
 
