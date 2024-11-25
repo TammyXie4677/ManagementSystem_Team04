@@ -72,6 +72,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConversionChart.cs" />
     <!-- C# files -->
     <Compile Include="Customer.cs">
       <DependentUpon>LoyaltyDbContext.tt</DependentUpon>

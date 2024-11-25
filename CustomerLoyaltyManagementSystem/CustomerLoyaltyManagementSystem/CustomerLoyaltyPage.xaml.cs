@@ -15,6 +15,16 @@ namespace CustomerLoyaltyManagementSystem
             this.customerId = customerId;
             DatabaseConnection(); // Ensure the database connection is established
             LoadCustomerData(); // Load data for the customer
+
+            var conversionData = new List<ConversionChart>
+        {
+            new ConversionChart { Tier = "Silver", ConversionRate = "100 points = $1", DollarValue = "1.0x" },
+            new ConversionChart { Tier = "Gold", ConversionRate = "100 points = $1.5", DollarValue = "1.5x" },
+            new ConversionChart { Tier = "Platinum", ConversionRate = "100 points = $2", DollarValue = "2.0x" }
+        };
+
+            // Set DataContext or directly assign to DataGrid
+            ConversionChartDataGrid.ItemsSource = conversionData;
         }
 
         private void DatabaseConnection()
@@ -36,56 +46,99 @@ namespace CustomerLoyaltyManagementSystem
                 MessageBox.Show("Error: " + ex.Message, "Database Connection Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
         private void LoadCustomerData()
         {
+            string connectionString = Environment.GetEnvironmentVariable("ENV_CONNECTION_STRING");
+
             try
             {
-                SqlConnection connection = new SqlConnection("Data Source=managementsystem-team04.database.windows.net;initial catalog=managementsystem_db;persist security info=True;user id=adminDb;password=5uK]Fd£C29_E;MultipleActiveResultSets=True;App=EntityFramework");
-                connection.Open();
-
-                // Load customer data (email, total points, tier)
-                SqlCommand command = new SqlCommand("SELECT C.CustomerID, C.UserID, C.LoyaltyPoints, C.Tier, U.Email FROM Customer C INNER JOIN [User] U ON C.UserID = U.UserID WHERE C.CustomerID = @CustomerID", connection);
-                command.Parameters.AddWithValue("@CustomerID", customerId);
-
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    int loyaltyPoints = Convert.ToInt32(reader["LoyaltyPoints"]);
-                    string tier = reader["Tier"].ToString();
-                    string email = reader["Email"].ToString();
+                    connection.Open();
 
-                    TotalPointsText.Text = $"{loyaltyPoints}";
-                    TierText.Text = $"{tier}";
-                    EmailText.Text = $"{email}";
-                }
+                    // Load customer data
+                    string customerQuery = @"SELECT C.LoyaltyPoints, C.Tier, U.Email 
+                                     FROM Customer C 
+                                     INNER JOIN [User] U ON C.UserID = U.UserID 
+                                     WHERE C.CustomerID = @CustomerID";
 
-                // Load transaction history (including registration points)
-                List<TransactionRecord> transactions = new List<TransactionRecord>();
-                SqlCommand transactionCommand = new SqlCommand("SELECT PointsEarned, Date, 'Registration Bonus' AS Details FROM TransactionLoyalty WHERE CustomerID = @CustomerID AND TransactionType = 'Program'", connection);
-                transactionCommand.Parameters.AddWithValue("@CustomerID", customerId);
-                SqlDataReader transactionReader = transactionCommand.ExecuteReader();
-
-                while (transactionReader.Read())
-                {
-                    transactions.Add(new TransactionRecord
+                    using (SqlCommand customerCommand = new SqlCommand(customerQuery, connection))
                     {
-                        PointsEarned = Convert.ToInt32(transactionReader["PointsEarned"]),
-                        Details = transactionReader["Details"].ToString(),
-                        Date = Convert.ToDateTime(transactionReader["Date"]).ToString("MM/dd/yyyy")
-                    });
+                        customerCommand.Parameters.AddWithValue("@CustomerID", customerId);
+
+                        using (SqlDataReader reader = customerCommand.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                TotalPointsText.Text = reader["LoyaltyPoints"].ToString();
+                                TierText.Text = reader["Tier"].ToString();
+                                EmailText.Text = reader["Email"].ToString();
+                            }
+                        }
+                    }
+
+                    // Load transaction history
+                    string transactionQuery = @"SELECT PointsEarned, Date, 'Registration Bonus' AS Details 
+                                        FROM TransactionLoyalty 
+                                        WHERE CustomerID = @CustomerID AND TransactionType = 'Program'";
+
+                    List<TransactionRecord> transactions = new List<TransactionRecord>();
+
+                    using (SqlCommand transactionCommand = new SqlCommand(transactionQuery, connection))
+                    {
+                        transactionCommand.Parameters.AddWithValue("@CustomerID", customerId);
+
+                        using (SqlDataReader transactionReader = transactionCommand.ExecuteReader())
+                        {
+                            while (transactionReader.Read())
+                            {
+                                transactions.Add(new TransactionRecord
+                                {
+                                    PointsEarned = Convert.ToInt32(transactionReader["PointsEarned"]),
+                                    Details = transactionReader["Details"].ToString(),
+                                    Date = Convert.ToDateTime(transactionReader["Date"]).ToString("MM/dd/yyyy")
+                                });
+                            }
+                        }
+                    }
+
+                    // Bind transaction data
+                    TransactionHistoryList.ItemsSource = transactions;
+
+                    // Calculate and display redeemable value
+                    int loyaltyPoints = int.Parse(TotalPointsText.Text);
+                    string tier = TierText.Text;
+                    double redeemableValue = CalculateRedeemableValue(loyaltyPoints, tier);
+                    RedeemableValueText.Text = $"${redeemableValue:F2}";
                 }
-
-                // Bind transaction data to the ListBox
-                TransactionHistoryList.ItemsSource = transactions;
-
-                connection.Close();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show($"Database Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Data Load Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
+        // Helper method to calculate redeemable value
+        private double CalculateRedeemableValue(int points, string tier)
+        {
+            switch (tier.ToLower())
+            {
+                case "silver":
+                    return points / 100.0;
+                case "gold":
+                    return points * 1.5 / 100.0;
+                case "platinum":
+                    return points * 2.0 / 100.0;
+                default:
+                    return 0.0;
+            }
+        }
+
 
         public class TransactionRecord
         {
