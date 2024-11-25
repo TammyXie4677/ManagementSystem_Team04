@@ -45,10 +45,44 @@ namespace CustomerLoyaltyManagementSystem
                 }
                 else
                 {
-                    EmailVerificationDialog emailVerificationDialog = new EmailVerificationDialog();
+                    // Hash the password
+                    string hashedPassword = HashPassword(PasswordBox.Password);
+
+                    // Store the user data and verification code before email verification
+                    StoreUserData(EmailTextBox.Text, hashedPassword);
+
+                    EmailVerificationDialog emailVerificationDialog = new EmailVerificationDialog(EmailTextBox.Text);
                     emailVerificationDialog.ShowDialog();
                     this.Close();
                 }
+            }
+        }
+
+        private string HashPassword(string password)
+        {
+            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
+        private void StoreUserData(string email, string hashedPassword)
+        {
+            using (var context = new managementsystem_dbEntities())
+            {
+                var user = new User
+                {
+                    Email = email,
+                    PasswordHashed = hashedPassword,
+                };
+                context.Users.Add(user);
+                context.SaveChanges();
             }
         }
 
