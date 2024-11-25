@@ -52,7 +52,7 @@ namespace CustomerLoyaltyManagementSystem
             registration.Show();
             this.Close();
         }
-    } 
+    
 
         // This is the event handler for the button click
         private void OnViewCustomerLoyaltyButtonClick(object sender, RoutedEventArgs e)
