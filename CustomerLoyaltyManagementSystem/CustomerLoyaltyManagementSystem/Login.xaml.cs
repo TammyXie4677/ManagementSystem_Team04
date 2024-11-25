@@ -19,6 +19,7 @@ namespace CustomerLoyaltyManagementSystem
     /// </summary>
     public partial class Login : Window
     {
+        private bool isExitButtonClicked = false;
         public Login()
         {
             InitializeComponent();
@@ -29,11 +30,21 @@ namespace CustomerLoyaltyManagementSystem
             MessageBox.Show("Login button clicked!"); 
         }
 
-        private void ExitButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
+        private void ExitButton_Click(object sender, RoutedEventArgs e) 
+        { 
+            isExitButtonClicked = true; 
+            MainWindow mainWindow = new MainWindow(); 
+            mainWindow.Show(); 
             this.Close(); 
+        }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e) 
+        { 
+            base.OnClosing(e); 
+            if (!isExitButtonClicked) {
+                MainWindow mainWindow = new MainWindow(); 
+                mainWindow.Show(); 
+            } 
         }
     }
 }
