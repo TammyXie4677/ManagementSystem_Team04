@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomerLoyaltyManagementSystem"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        mc:Ignorable="d" ResizeMode="NoResize"
+        Title="MainWindow" Height="350" Width="500">
     <Grid>
-        
+        <StackPanel Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Welcome to be our Loyalty Customer!" FontSize="18" FontWeight="Bold" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+            <Button Content="Login" Width="100" HorizontalAlignment="Center" Margin="0,0,0,10" FontSize="18" Click="LoginButton_Click"/>
+            <Button Content="Sign Up" Width="100" HorizontalAlignment="Center" FontSize="18" Click="SignUpButton_Click"/>
+        </StackPanel>
     </Grid>
 </Window>
