@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <!-- Add a button that triggers the Customer Loyalty Page -->
+        <Button Content="View Customer Loyalty Page" HorizontalAlignment="Center" VerticalAlignment="Center"
+                Width="200" Height="50" Click="OnViewCustomerLoyaltyButtonClick"/>
     </Grid>
 </Window>

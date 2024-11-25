@@ -1,24 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CustomerLoyaltyManagementSystem
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -27,10 +12,30 @@ namespace CustomerLoyaltyManagementSystem
             DatabaseConnection(); // Call the method when the window is loaded
         }
 
+        private void DatabaseConnection2(object sender, RoutedEventArgs e)
+        {
+            SqlConnection connection = new SqlConnection("Data Source=managementsystem-team04.database.windows.net;initial catalog=managementsystem_db;persist security info=True;user id=adminDb;password=5uK]Fd£C29_E;MultipleActiveResultSets=True;App=EntityFramework");
+            connection.Open();
+            SqlCommand command = new SqlCommand("select C.CustomerID,C.UserID,C.LoyaltyPoints,C.Tier,U.Email from Customer C inner join [User] U ON C.UserID=U.UserID where C.CustomerID =1;", connection);
+            //var customerId = Convert.ToInt32(txtCtmID.Text);
+            //command.Parameters.AddWithValue("@CustomerID", customerId);
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                MessageBox.Show(reader["CustomerID"].ToString());
+                MessageBox.Show(reader["UserID"].ToString());
+                MessageBox.Show(reader["LoyaltyPoints"].ToString());
+                MessageBox.Show(reader["Tier"].ToString());
+                MessageBox.Show(reader["Email"].ToString());
+
+            }
+        }
         private void DatabaseConnection()
         {
             try
             {
+
+               
                 // Get the environment variable
                 string envConnectionString = Environment.GetEnvironmentVariable("ENV_CONNECTION_STRING");
 
@@ -48,6 +53,21 @@ namespace CustomerLoyaltyManagementSystem
                 // Display error message if something goes wrong
                 MessageBox.Show("Error: " + ex.Message, "Database Connection Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        // This is the event handler for the button click
+        private void OnViewCustomerLoyaltyButtonClick(object sender, RoutedEventArgs e)
+        {
+            int customerId = 1; // Example: You can pass the actual customer ID here (dynamically assigned in your case)
+            ShowCustomerLoyaltyPage(customerId);
+        }
+
+        // This method will create and show the CustomerLoyaltyPage
+        private void ShowCustomerLoyaltyPage(int customerId)
+        {
+            CustomerLoyaltyPage customerLoyaltyPage = new CustomerLoyaltyPage(customerId);
+            customerLoyaltyPage.Show(); // Show the Customer Loyalty Page
+            this.Hide(); // Optionally hide the main window
         }
     }
 }
