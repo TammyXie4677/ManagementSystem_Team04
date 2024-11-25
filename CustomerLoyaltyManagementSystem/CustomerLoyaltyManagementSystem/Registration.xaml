@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomerLoyaltyManagementSystem"
         mc:Ignorable="d" ResizeMode="NoResize"
-        Title="Registration" Height="350" Width="500">
+        Title="Registration" Height="400" Width="500">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Background" Value="#22a8f0"/>
@@ -43,11 +43,14 @@
     <Grid>
         <StackPanel Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
             <TextBlock Text="Email:" FontSize="20"/>
-            <TextBox Name="EmailTextBox" Margin="0,0,0,10" FontSize=" 20"/>
+            <TextBox Name="EmailTextBox" Margin="0,0,0,5" FontSize="20"/>
+            <TextBlock Name="EmailErrorTextBlock" Foreground="Red" FontSize="12" Margin="0,0,0,10"/>
             <TextBlock Text="Password:" FontSize="20"/>
-            <PasswordBox Name="PasswordBox" Margin="0,0,0,10" FontSize="20"/>
+            <PasswordBox Name="PasswordBox" Margin="0,0,0,5" FontSize="20"/>
+            <TextBlock Name="PasswordErrorTextBlock" Foreground="Red" FontSize="12" Margin="0,0,0,10"/>
             <TextBlock Text="Confirm Password:" FontSize="20"/>
-            <PasswordBox Name="ConfirmPasswordBox" Margin="0,0,0,20" FontSize="20"/>
+            <PasswordBox Name="ConfirmPasswordBox" Margin="0,0,0,5" FontSize="20"/>
+            <TextBlock Name="ConfirmPasswordErrorTextBlock" Foreground="Red" FontSize="12" Margin="0,0,0,20"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="Register" Width="120" Margin="0,0,10,0" FontSize="20" Click="RegisterButton_Click"/>
                 <Button Content="Exit" Width="120" FontSize="20" Click="ExitButton_Click" Style="{StaticResource GreyButtonStyle}"/>
