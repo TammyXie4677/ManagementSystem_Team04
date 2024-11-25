@@ -122,3 +122,30 @@ Example entries for one day, both team members:
 - start to do admin dashboard page
 - 
 3. Need assistance / figure things out
+
+
+2024/11/24 Yunting Xie
+1. Done / not done since last scrum:
+- 
+2. To do until next Scrum:
+- 
+3. Need assistance / figure things out
+- 
+
+2024/11/24 Qiutian Wang
+1. Done / not done since last scrum:
+- 
+2. To do until next Scrum:
+- 
+- 
+3. Need assistance / figure things out
+- 
+
+2024/11/24 Kejia Li
+1. Done / not done since last scrum:
+- CreateProgram window
+-
+2. To do until next Scrum:
+- Finish CreateProgram window
+- start to do ManageCustomer window
+3. Need assistance / figure things out
