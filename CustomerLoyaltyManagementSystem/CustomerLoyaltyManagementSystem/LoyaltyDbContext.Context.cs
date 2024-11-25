@@ -19,22 +19,7 @@ namespace CustomerLoyaltyManagementSystem
             : base("name=managementsystem_dbEntities")
         {
         }
-
-        //private static string GetConnectionString()
-        //{
-        //    // Retrieve the connection string from environment variables
-        //    string envConnectionString = Environment.GetEnvironmentVariable("ENV_CONNECTION_STRING");
-
-        //    // If the environment variable is not set, use a fallback connection string
-        //    if (string.IsNullOrEmpty(envConnectionString))
-        //    {
-        //        // Fallback to a direct connection string (for testing purposes)
-        //        return "data source=managementsystem-team04.database.windows.net;initial catalog=managementsystem_db;persist security info=True;user id=adminDb;password=5uK]Fd£C29_E;MultipleActiveResultSets=True;App=EntityFramework";
-        //    }
-
-        //    return envConnectionString;
-        //}
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace CustomerLoyaltyManagementSystem
 {
@@ -43,27 +44,42 @@ namespace CustomerLoyaltyManagementSystem
                 SqlConnection connection = new SqlConnection("Data Source=managementsystem-team04.database.windows.net;initial catalog=managementsystem_db;persist security info=True;user id=adminDb;password=5uK]Fd£C29_E;MultipleActiveResultSets=True;App=EntityFramework");
                 connection.Open();
 
+                // Load customer data (email, total points, tier)
                 SqlCommand command = new SqlCommand("SELECT C.CustomerID, C.UserID, C.LoyaltyPoints, C.Tier, U.Email FROM Customer C INNER JOIN [User] U ON C.UserID = U.UserID WHERE C.CustomerID = @CustomerID", connection);
                 command.Parameters.AddWithValue("@CustomerID", customerId);
 
                 SqlDataReader reader = command.ExecuteReader();
-
                 if (reader.Read())
                 {
-                    // Extract data from the reader and assign it to UI elements
                     int loyaltyPoints = Convert.ToInt32(reader["LoyaltyPoints"]);
                     string tier = reader["Tier"].ToString();
                     string email = reader["Email"].ToString();
 
-                    // Assign values to the TextBlock elements in the UI
                     TotalPointsText.Text = $"{loyaltyPoints}";
                     TierText.Text = $"{tier}";
                     EmailText.Text = $"{email}";
                 }
-                else
+
+                // Load transaction history (including registration points)
+                List<TransactionRecord> transactions = new List<TransactionRecord>();
+                SqlCommand transactionCommand = new SqlCommand("SELECT PointsEarned, Date, 'Registration Bonus' AS Details FROM TransactionLoyalty WHERE CustomerID = @CustomerID AND TransactionType = 'Program'", connection);
+                transactionCommand.Parameters.AddWithValue("@CustomerID", customerId);
+                SqlDataReader transactionReader = transactionCommand.ExecuteReader();
+
+                while (transactionReader.Read())
                 {
-                    MessageBox.Show("Customer not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    transactions.Add(new TransactionRecord
+                    {
+                        PointsEarned = Convert.ToInt32(transactionReader["PointsEarned"]),
+                        Details = transactionReader["Details"].ToString(),
+                        Date = Convert.ToDateTime(transactionReader["Date"]).ToString("MM/dd/yyyy")
+                    });
                 }
+
+                // Bind transaction data to the ListBox
+                TransactionHistoryList.ItemsSource = transactions;
+
+                connection.Close();
             }
             catch (Exception ex)
             {
@@ -71,15 +87,11 @@ namespace CustomerLoyaltyManagementSystem
             }
         }
 
-        private void RefreshData_Click(object sender, RoutedEventArgs e)
+        public class TransactionRecord
         {
-            // Refresh the customer data when the button is clicked
-            LoadCustomerData();
-        }
-
-        private void CloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-
+            public int PointsEarned { get; set; }
+            public string Details { get; set; }
+            public string Date { get; set; }
         }
     }
 }
