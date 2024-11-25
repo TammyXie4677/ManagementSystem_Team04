@@ -101,6 +101,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="CustomerLoyaltyPage.xaml.cs">
+      <DependentUpon>CustomerLoyaltyPage.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -124,6 +127,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Registration.xaml">
+    <Page Include="CustomerLoyaltyPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

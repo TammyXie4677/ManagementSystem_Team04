@@ -12,5 +12,8 @@
             <Button Content="Login" Width="100" HorizontalAlignment="Center" Margin="0,0,0,10" FontSize="18" Click="LoginButton_Click"/>
             <Button Content="Sign Up" Width="100" HorizontalAlignment="Center" FontSize="18" Click="SignUpButton_Click"/>
         </StackPanel>
+        <!-- Add a button that triggers the Customer Loyalty Page -->
+        <Button Content="View Customer Loyalty Page" HorizontalAlignment="Center" VerticalAlignment="Center"
+                Width="200" Height="50" Click="OnViewCustomerLoyaltyButtonClick"/>
     </Grid>
 </Window>
