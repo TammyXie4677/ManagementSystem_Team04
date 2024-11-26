@@ -147,20 +147,21 @@ Example entries for one day, both team members:
 2024/11/24 Kejia Li
 1. Done / not done since last scrum:
 - CreateProgram window
--
 2. To do until next Scrum:
 - Finish CreateProgram window
 - start to do ManageCustomer window
 3. Need assistance / figure things out
-
+-
 
 2024/11/25 Yunting Xie
 1. Done / not done since last scrum:
-
+- Updated login.xaml &register.xaml
+- Finished Users login and register
 2. To do until next Scrum:
-
+- Navigate to Admin and Customer Dashboard
+- Generate Admin/Customer's Reports
 3. Need assistance / figure things out
-- 
+- Can't work on Smtp
 
 2024/11/25 Qiutian Wang
 1. Done / not done since last scrum:
