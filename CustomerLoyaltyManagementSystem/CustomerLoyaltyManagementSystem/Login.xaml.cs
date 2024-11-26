@@ -55,9 +55,9 @@ namespace CustomerLoyaltyManagementSystem
                     PasswordErrorTextBlock.Text = "Incorrect password.";
                     return;
                 }
+                // Successful login, navigate based on the role
+                Navigation(user.Role);
             }
-
-            MessageBox.Show("Login successful!");
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -87,6 +87,24 @@ namespace CustomerLoyaltyManagementSystem
         private bool VerifyPassword(string password, string hashedPassword)
         {
             return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+        }
+
+        private void Navigation(string role)
+        {
+            if (role == "Admin")
+            {
+                // Navigate to Admin Dashboard
+                AdminDashboard adminDashboard = new AdminDashboard(); 
+                adminDashboard.Show();
+            }
+            else
+            {
+                // Navigate to Customer dashboard
+                MessageBox.Show("Navigate to CustomerDashboard.");
+                //CustomerDashboard customerDashboard = new CustomerDashboard(); 
+            }
+
+            this.Close();
         }
     }
 }
