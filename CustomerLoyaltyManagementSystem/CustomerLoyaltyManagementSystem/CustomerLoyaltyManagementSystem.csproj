@@ -87,6 +87,9 @@
     <Compile Include="Customer.cs">
       <DependentUpon>LoyaltyDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="CustomerDashboard.xaml.cs">
+      <DependentUpon>CustomerDashboard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EmailVerificationDialog.xaml.cs">
       <DependentUpon>EmailVerificationDialog.xaml</DependentUpon>
     </Compile>
@@ -121,6 +124,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Control\ProgramControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomerDashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
