@@ -89,9 +89,8 @@ namespace CustomerLoyaltyManagementSystem
             }
             else
             {
-                // Navigate to Customer dashboard
-                MessageBox.Show("Navigate to CustomerDashboard.");
-                //CustomerDashboard customerDashboard = new CustomerDashboard(); 
+               CustomerDashboard customerDashboard = new CustomerDashboard();
+                customerDashboard.Show();
             }
 
             this.Close();
