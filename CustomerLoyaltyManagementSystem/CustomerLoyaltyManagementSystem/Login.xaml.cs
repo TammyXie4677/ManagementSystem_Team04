@@ -1,26 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CustomerLoyaltyManagementSystem
 {
-    /// <summary>
-    /// Interaction logic for Login.xaml
-    /// </summary>
     public partial class Login : Window
     {
         private bool isExitButtonClicked = false;
+        private bool isLoginSuccessful = false; // Add this field
+
         public Login()
         {
             InitializeComponent();
@@ -55,7 +43,9 @@ namespace CustomerLoyaltyManagementSystem
                     PasswordErrorTextBlock.Text = "Incorrect password.";
                     return;
                 }
-                // Successful login, navigate based on the role
+
+                // Successful login, set the flag to true
+                isLoginSuccessful = true;
                 Navigation(user.Role);
             }
         }
@@ -71,7 +61,7 @@ namespace CustomerLoyaltyManagementSystem
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             base.OnClosing(e);
-            if (!isExitButtonClicked)
+            if (!isExitButtonClicked && !isLoginSuccessful) // Check the login status
             {
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
@@ -94,7 +84,7 @@ namespace CustomerLoyaltyManagementSystem
             if (role == "Admin")
             {
                 // Navigate to Admin Dashboard
-                AdminDashboard adminDashboard = new AdminDashboard(); 
+                AdminDashboard adminDashboard = new AdminDashboard();
                 adminDashboard.Show();
             }
             else
