@@ -7,7 +7,7 @@ namespace CustomerLoyaltyManagementSystem
     public partial class Login : Window
     {
         private bool isExitButtonClicked = false;
-        private bool isLoginSuccessful = false; // Add this field
+        private bool isLoginSuccessful = false; 
 
         public Login()
         {
