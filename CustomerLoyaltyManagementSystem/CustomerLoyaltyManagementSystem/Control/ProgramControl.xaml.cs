@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,26 @@ namespace CustomerLoyaltyManagementSystem.Control
     /// <summary>
     /// Interaction logic for ProgramControl.xaml
     /// </summary>
+    /// 
+    public class Program
+    {
+        public int Id { get; set; }
+        public string ProgramName { get; set; }
+        public string Description { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string ProgramTier { get; set; }
+
+    }
+
     public partial class ProgramControl : UserControl
     {
+        private ObservableCollection<Program> programs;
         public ProgramControl()
         {
             InitializeComponent();
+            programs = new ObservableCollection<Program>();
+            LoadPrograms();
         }
         // Click event for saving a promotion
         private void SavePromotionButton_Click(object sender, RoutedEventArgs e)
@@ -68,6 +84,7 @@ namespace CustomerLoyaltyManagementSystem.Control
 
             // save to db
             SaveProgramToDatabase(promotionName, description, startDate.Value, endDate.Value, selectedTier);
+            LoadPrograms();
         }
 
         private void SaveProgramToDatabase(string promotionName, string description, DateTime startDate, DateTime endDate, string tier)
@@ -76,7 +93,7 @@ namespace CustomerLoyaltyManagementSystem.Control
             {
                 string connectionString = "data source=managementsystem-team04.database.windows.net;initial catalog=managementsystem_db;persist security info=True;user id=adminDb;password=5uK]Fd£C29_E;MultipleActiveResultSets=True;App=EntityFramework";
                 using (SqlConnection conn = new SqlConnection(connectionString))
-                {
+                {   
                     conn.Open();
                     string query = "INSERT INTO LoyaltyProgram (ProgramName, Description, StartDate, EndDate, ProgramTier) " +
                                    "VALUES (@ProgramName, @Description, @StartDate, @EndDate, @ProgramTier)";
@@ -114,7 +131,104 @@ namespace CustomerLoyaltyManagementSystem.Control
             TierComboBox.SelectedIndex = 0; // Reset dropdown to "Select a Tier"
         }
 
-        
+        // get all programs from db
+        private void LoadPrograms()
+        {
+            try
+            {
+                programs.Clear();
+
+                string connectionString = "data source=managementsystem-team04.database.windows.net;initial catalog=managementsystem_db;persist security info=True;user id=adminDb;password=5uK]Fd£C29_E;MultipleActiveResultSets=True;App=EntityFramework";
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();  // open db connection
+
+                    // get all info
+                    string query = "SELECT * FROM LoyaltyProgram";
+
+                    // Create a SqlCommand object and execute the query
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Program program = new Program
+                                {
+                                    ProgramName = reader["ProgramName"].ToString(),
+                                    Description = reader["Description"].ToString(),
+                                    StartDate = reader["StartDate"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(reader["StartDate"]),
+                                    EndDate = reader["EndDate"] == DBNull.Value ? DateTime.MinValue: Convert.ToDateTime(reader["EndDate"]),
+                                    ProgramTier = reader["ProgramTier"].ToString()
+                                };
+                                programs.Add(program);
+                            }
+                        }
+                    }
+                }
+
+                ProgramsDataGrid.ItemsSource = programs;
+            }
+            catch (SqlException sqlEx)
+            {
+                MessageBox.Show($"Database error: {sqlEx.Message}", "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            // 获取当前选中行的 ProgramModel
+            var selectedProgram = (Program)ProgramsDataGrid.SelectedItem;
+            if (selectedProgram != null)
+            {
+                MessageBox.Show($"Edit {selectedProgram.ProgramName} (implement your logic here)", "Edit", MessageBoxButton.OK);
+                // 添加编辑逻辑，例如弹出编辑窗口
+            }
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            // 获取当前选中行的 ProgramModel
+            var selectedProgram = (Program)ProgramsDataGrid.SelectedItem;
+            if (selectedProgram != null)
+            {
+                var result = MessageBox.Show($"Are you sure you want to delete {selectedProgram.ProgramName}?", "Delete Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    DeleteProgram(selectedProgram.ProgramName);
+                    LoadPrograms(); // 刷新表格
+                }
+            }
+        }
+        private void DeleteProgram(string programName)
+        {
+            try
+            {
+                string connectionString = "data source=managementsystem-team04.database.windows.net;initial catalog=managementsystem_db;persist security info=True;user id=adminDb;password=5uK]Fd£C29_E;MultipleActiveResultSets=True;App=EntityFramework";
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "DELETE FROM LoyaltyProgram WHERE ProgramName = @ProgramName";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ProgramName", programName);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unexpected error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
     }
 }
