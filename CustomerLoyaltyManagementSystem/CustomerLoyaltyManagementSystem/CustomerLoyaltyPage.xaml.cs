@@ -58,9 +58,9 @@ namespace CustomerLoyaltyManagementSystem
 
                     // Load customer data
                     string customerQuery = @"SELECT C.LoyaltyPoints, C.Tier, U.Email 
-                                     FROM Customer C 
-                                     INNER JOIN [User] U ON C.UserID = U.UserID 
-                                     WHERE C.CustomerID = @CustomerID";
+                                      FROM Customer C 
+                                      INNER JOIN [User] U ON C.UserID = U.UserID 
+                                      WHERE C.CustomerID = @CustomerID";
 
                     using (SqlCommand customerCommand = new SqlCommand(customerQuery, connection))
                     {
@@ -70,19 +70,26 @@ namespace CustomerLoyaltyManagementSystem
                         {
                             if (reader.Read())
                             {
-                                TotalPointsText.Text = reader["LoyaltyPoints"].ToString();
+                                TotalEarnedPointsText.Text = reader["LoyaltyPoints"].ToString();
                                 TierText.Text = reader["Tier"].ToString();
                                 EmailText.Text = reader["Email"].ToString();
                             }
                         }
                     }
 
-                    // Load transaction history
-                    string transactionQuery = @"SELECT PointsEarned, Date, 'Registration Bonus' AS Details 
-                                        FROM TransactionLoyalty 
-                                        WHERE CustomerID = @CustomerID AND TransactionType = 'Program'";
+                    // Load total earned and redeemed points, and transaction history
+                    string transactionQuery = @"
+                SELECT 
+                    SUM(CASE WHEN PointsEarned IS NOT NULL THEN PointsEarned ELSE 0 END) AS TotalEarnedPoints,
+                    SUM(CASE WHEN PointsRedeemed IS NOT NULL THEN PointsRedeemed ELSE 0 END) AS TotalRedeemedPoints,
+                    PointsEarned, PointsRedeemed, Date, TransactionType
+                FROM TransactionLoyalty
+                WHERE CustomerID = @CustomerID
+                GROUP BY Date, PointsEarned, PointsRedeemed, TransactionType";
 
-                    List<TransactionRecord> transactions = new List<TransactionRecord>();
+                    List<TransactionLoyalty> transactions = new List<TransactionLoyalty>();
+                    decimal totalRedeemed = 0;
+                    decimal totalEarned = 0;
 
                     using (SqlCommand transactionCommand = new SqlCommand(transactionQuery, connection))
                     {
@@ -92,12 +99,19 @@ namespace CustomerLoyaltyManagementSystem
                         {
                             while (transactionReader.Read())
                             {
-                                transactions.Add(new TransactionRecord
+                                // Calculate total earned and redeemed points
+                                totalEarned += transactionReader.IsDBNull(0) ? 0 : Convert.ToDecimal(transactionReader["TotalEarnedPoints"]);
+                                totalRedeemed += transactionReader.IsDBNull(1) ? 0 : Convert.ToDecimal(transactionReader["TotalRedeemedPoints"]);
+
+                                transactions.Add(new TransactionLoyalty
                                 {
-                                    PointsEarned = Convert.ToInt32(transactionReader["PointsEarned"]),
-                                    Details = transactionReader["Details"].ToString(),
-                                    Date = Convert.ToDateTime(transactionReader["Date"]).ToString("MM/dd/yyyy")
+                                    PointsEarned = transactionReader.IsDBNull(2) ? 0 : Convert.ToInt32(transactionReader["PointsEarned"]),
+                                    PointsRedeemed = transactionReader.IsDBNull(3) ? 0 : Convert.ToInt32(transactionReader["PointsRedeemed"]),
+                                    TransactionType = transactionReader["TransactionType"].ToString(),
+                                    Date = transactionReader.IsDBNull(4) ? (DateTime?)null : transactionReader.GetDateTime(4) // Correctly handle nullable DateTime
                                 });
+
+
                             }
                         }
                     }
@@ -105,8 +119,12 @@ namespace CustomerLoyaltyManagementSystem
                     // Bind transaction data
                     TransactionHistoryList.ItemsSource = transactions;
 
+                    // Set Total Earned and Redeemed Points in the UI
+                    //TotalEarnedPointsText.Text = totalEarned.ToString();
+                    TotalRedeemedPointsText.Text = totalRedeemed.ToString();
+
                     // Calculate and display redeemable value
-                    int loyaltyPoints = int.Parse(TotalPointsText.Text);
+                    int loyaltyPoints = int.Parse(TotalEarnedPointsText.Text);
                     string tier = TierText.Text;
                     double redeemableValue = CalculateRedeemableValue(loyaltyPoints, tier);
                     RedeemableValueText.Text = $"${redeemableValue:F2}";
@@ -123,29 +141,25 @@ namespace CustomerLoyaltyManagementSystem
         }
 
 
+
         // Helper method to calculate redeemable value
         private double CalculateRedeemableValue(int points, string tier)
         {
             switch (tier.ToLower())
             {
                 case "silver":
-                    return points / 10.0;
+                    return points / 10.0; // Example: 100 points = $10
                 case "gold":
-                    return points * 1.5 / 10.0;
+                    return points * 1.5 / 10.0; // Example: 100 points = $15
                 case "platinum":
-                    return points * 2.0 / 10.0;
+                    return points * 2.0 / 10.0; // Example: 100 points = $20
                 default:
                     return 0.0;
             }
         }
 
 
-        public class TransactionRecord
-        {
-            public int PointsEarned { get; set; }
-            public string Details { get; set; }
-            public string Date { get; set; }
-        }
+
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
@@ -153,5 +167,147 @@ namespace CustomerLoyaltyManagementSystem
             mainWindow.Show();
             this.Close();
         }
+
+        private void RedeemButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Validate input for points to redeem
+            int pointsToRedeem = 0;
+            if (string.IsNullOrWhiteSpace(RedeemPointsTextBox.Text) ||
+                !int.TryParse(RedeemPointsTextBox.Text, out pointsToRedeem) ||
+                pointsToRedeem <= 0)
+            {
+                MessageBox.Show("Please enter a valid number of points to redeem.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            int totalPoints = 0;
+            // Validate input for total points
+            if (string.IsNullOrWhiteSpace(TotalEarnedPointsText.Text) ||
+                !int.TryParse(TotalEarnedPointsText.Text, out totalPoints) ||
+                totalPoints < 0)
+            {
+                MessageBox.Show("Total points value is invalid. Please check the system data.", "System Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Define the minimum redeemable value (example: 100 points)
+            int minimumRedeemablePoints = 100;
+
+            if (pointsToRedeem < minimumRedeemablePoints)
+            {
+                MessageBox.Show($"You need at least {minimumRedeemablePoints} points to redeem.", "Minimum Points Required", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (pointsToRedeem > totalPoints)
+            {
+                MessageBox.Show("You don't have enough points to redeem this amount.", "Insufficient Points", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Create a new transaction record for the redemption
+            CreateRedemptionTransaction(pointsToRedeem);
+
+            // Update the total points and redeemable value
+            int newTotalPoints = totalPoints - pointsToRedeem;
+            UpdateCustomerPoints(newTotalPoints);
+            UpdateRedeemableValue(newTotalPoints); // Assuming this method updates the redeemable value text
+
+            // Update the total redeemed points in the UI
+            int totalRedeemedPoints = int.Parse(TotalRedeemedPointsText.Text);
+            TotalRedeemedPointsText.Text = (totalRedeemedPoints + pointsToRedeem).ToString();
+
+            // Update the UI to reflect the new total points
+            TotalEarnedPointsText.Text = newTotalPoints.ToString();
+
+            //MessageBox.Show("Points redeemed successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+
+
+        private void CreateRedemptionTransaction(int pointsRedeemed)
+        {
+            string connectionString = Environment.GetEnvironmentVariable("ENV_CONNECTION_STRING");
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Calculate the redeemable amount based on points and tier
+                    string tier = TierText.Text; // Get the current tier of the customer
+                    double amount = CalculateRedeemableValue(pointsRedeemed, tier); // Calculate the redeemable amount
+
+                    // Create a new transaction record for the redemption
+                    string query = @"INSERT INTO TransactionLoyalty 
+                             (CustomerID, PointsRedeemed, TransactionType, Date, Amount) 
+                             VALUES (@CustomerID, @PointsRedeemed, @TransactionType, @Date, @Amount)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        // Set parameters to avoid NULL values
+                        command.Parameters.AddWithValue("@CustomerID", customerId); // Ensure CustomerID is not NULL
+                        command.Parameters.AddWithValue("@PointsRedeemed", pointsRedeemed); // Points redeemed, ensure it's not NULL
+                        command.Parameters.AddWithValue("@TransactionType", "Redemption"); // Redemption type is set
+                        command.Parameters.AddWithValue("@Date", DateTime.Now); // Set current date/time
+                        command.Parameters.AddWithValue("@Amount", amount); // Calculated redeemable amount
+
+                        command.ExecuteNonQuery(); // Execute the query
+                    }
+
+                    MessageBox.Show("Points redeemed successfully!", "Redemption Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show($"Database Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+        private void UpdateCustomerPoints(int newTotalPoints)
+        {
+            string connectionString = Environment.GetEnvironmentVariable("ENV_CONNECTION_STRING");
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Update the customer's total points
+                    string query = @"UPDATE Customer SET LoyaltyPoints = @NewTotalPoints WHERE CustomerID = @CustomerID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@CustomerID", customerId);
+                        command.Parameters.AddWithValue("@NewTotalPoints", newTotalPoints);
+
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Update the UI
+                    TotalEarnedPointsText.Text = newTotalPoints.ToString();
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show($"Database Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void UpdateRedeemableValue(int newTotalPoints)
+        {
+            string tier = TierText.Text;
+            double redeemableValue = CalculateRedeemableValue(newTotalPoints, tier);
+            RedeemableValueText.Text = $"${redeemableValue:F2}";
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoadCustomerData(); // Reload the customer data from the database
+        }
+
     }
 }
