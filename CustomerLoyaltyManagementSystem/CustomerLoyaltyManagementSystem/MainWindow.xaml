@@ -31,18 +31,9 @@
            FontWeight="ExtraBold" 
            Margin="0,0,0,40" 
            HorizontalAlignment="Center" 
-           Foreground="White" 
+           Foreground="black" 
            FontFamily="Segoe UI" 
            FontStyle="Italic">
-                <TextBlock.Effect>
-                    <DropShadowEffect Color="Black" Direction="315" ShadowDepth="5" BlurRadius="10"/>
-                </TextBlock.Effect>
-                <TextBlock.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#8FC8EB" Offset="0" />
-                        <GradientStop Color="#19335A" Offset="1" />
-                    </LinearGradientBrush>
-                </TextBlock.Background>
             </TextBlock>
             <Button Content="Login" Width="120" HorizontalAlignment="Center" Margin="0,0,0,10" FontSize="18" Click="LoginButton_Click"/>
             <Button Content="Sign Up" Width="120" HorizontalAlignment="Center" FontSize="18" Click="SignUpButton_Click"/>
