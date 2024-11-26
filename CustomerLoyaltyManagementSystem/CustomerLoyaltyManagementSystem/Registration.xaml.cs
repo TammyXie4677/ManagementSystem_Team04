@@ -93,11 +93,6 @@ namespace CustomerLoyaltyManagementSystem
             return BCrypt.Net.BCrypt.HashPassword(password);
         }
 
-        private bool VerifyPassword(string password, string hashedPassword)
-        {
-            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
-        }
-
         // private string GenerateVerificationCode()
         // {
         //     const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
