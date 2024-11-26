@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,24 +28,66 @@ namespace CustomerLoyaltyManagementSystem
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Login button clicked!"); 
+            string email = EmailTextBox.Text;
+            string password = PasswordBox.Password;
+
+            EmailErrorTextBlock.Text = string.Empty;
+            PasswordErrorTextBlock.Text = string.Empty;
+
+            if (!IsValidEmail(email))
+            {
+                EmailErrorTextBlock.Text = "Invalid email format.";
+                return;
+            }
+
+            using (var context = new managementsystem_dbEntities())
+            {
+                var user = context.Users.SingleOrDefault(u => u.Email == email);
+
+                if (user == null)
+                {
+                    EmailErrorTextBlock.Text = "User does not exist.";
+                    return;
+                }
+
+                if (!VerifyPassword(password, user.PasswordHashed))
+                {
+                    PasswordErrorTextBlock.Text = "Incorrect password.";
+                    return;
+                }
+            }
+
+            MessageBox.Show("Login successful!");
         }
 
-        private void ExitButton_Click(object sender, RoutedEventArgs e) 
-        { 
-            isExitButtonClicked = true; 
-            MainWindow mainWindow = new MainWindow(); 
-            mainWindow.Show(); 
-            this.Close(); 
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            isExitButtonClicked = true;
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
 
-        protected override void OnClosing(System.ComponentModel.CancelEventArgs e) 
-        { 
-            base.OnClosing(e); 
-            if (!isExitButtonClicked) {
-                MainWindow mainWindow = new MainWindow(); 
-                mainWindow.Show(); 
-            } 
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            if (!isExitButtonClicked)
+            {
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+            }
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return Regex.IsMatch(email, emailPattern);
+        }
+
+        private bool VerifyPassword(string password, string hashedPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
     }
 }
+
