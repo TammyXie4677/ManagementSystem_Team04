@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomerLoyaltyManagementSystem.Control"
         mc:Ignorable="d" 
-        BorderBrush="Transparent" BorderThickness="0" Height="581" Width="580">
+        BorderBrush="Transparent" BorderThickness="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+        
+        >
 
-    <StackPanel Margin="20" Background="#F5F5F5">
+    <StackPanel Margin="0" Background="#F5F5F5" >
         <!-- 折叠面板 -->
         <Expander Header="Create New Program" IsExpanded="True" Margin="0,0,0,10">
             <StackPanel>
@@ -51,23 +53,33 @@
             </StackPanel>
         </Expander>
 
-        <!-- 折叠面板：展示所有促销活动 -->
-        <Expander Header="View All Programs" IsExpanded="False" Margin="0,10,0,0">
-            <StackPanel>
-                <ListBox Name="ProgramsListBox" Margin="10">
-                    <!-- 假设此处绑定了程序列表 -->
-                    <!-- ListBoxItem 示例 -->
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Program 1" Margin="10,0"/>
-                            <Button Content="Edit" Margin="5" Width="60"/>
-                            <Button Content="Delete" Margin="5" Width="60"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <!-- 更多 ListBoxItem 以此类推 -->
-                </ListBox>
-            </StackPanel>
+        <!-- Show all programs -->
+        <Expander Header="View All Programs" IsExpanded="True" Margin="0,10,0,0">
+            <DataGrid Name="ProgramsDataGrid" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10"
+                  CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single">
+                <!-- 定义列 -->
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Program Name" Binding="{Binding ProgramName}" Width="2*" />
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="3*" />
+                    <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" Width="*"/>
+                    <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" Width="*"/>
+                    <DataGridTextColumn Header="Program Tier" Binding="{Binding ProgramTier}" Width="1.5*" />
+
+                    <!-- 操作按钮 -->
+                    <DataGridTemplateColumn Header="Actions" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Button Content="Edit" Margin="5" Click="EditButton_Click"/>
+                                    <Button Content="Delete" Margin="5" Click="DeleteButton_Click"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </Expander>
+
     </StackPanel>
 </UserControl>
 
