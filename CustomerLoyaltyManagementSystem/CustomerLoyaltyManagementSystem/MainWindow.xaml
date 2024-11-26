@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomerLoyaltyManagementSystem"
         mc:Ignorable="d" ResizeMode="NoResize"
-        Title="MainWindow" Height="350" Width="500">
+        Title="Loyalty Customer" Height="350" Width="600">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Background" Value="#22a8f0"/>
@@ -26,7 +26,24 @@
     </Window.Resources>
     <Grid>
         <StackPanel Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Welcome to be our Loyalty Customer!" FontSize="18" FontWeight="Bold" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+            <TextBlock Text="Thank you for being a Loyal Customer!" 
+           FontSize="28" 
+           FontWeight="ExtraBold" 
+           Margin="0,0,0,40" 
+           HorizontalAlignment="Center" 
+           Foreground="White" 
+           FontFamily="Segoe UI" 
+           FontStyle="Italic">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="Black" Direction="315" ShadowDepth="5" BlurRadius="10"/>
+                </TextBlock.Effect>
+                <TextBlock.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#19335A" Offset="0" />
+                        <GradientStop Color="#8FC8EB" Offset="1" />
+                    </LinearGradientBrush>
+                </TextBlock.Background>
+            </TextBlock>
             <Button Content="Login" Width="120" HorizontalAlignment="Center" Margin="0,0,0,10" FontSize="18" Click="LoginButton_Click"/>
             <Button Content="Sign Up" Width="120" HorizontalAlignment="Center" FontSize="18" Click="SignUpButton_Click"/>
         </StackPanel>
