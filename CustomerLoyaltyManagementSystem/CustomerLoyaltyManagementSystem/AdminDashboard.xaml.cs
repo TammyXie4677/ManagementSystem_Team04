@@ -33,8 +33,7 @@ namespace CustomerLoyaltyManagementSystem
 
         private void ManageUsers_Click(object sender, RoutedEventArgs e)
         {
-            // For testing
-            MessageBox.Show("Manage Users button clicked!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            MainContent.Content = new UsersControl();
         }
 
         private void GenerateReports_Click(object sender, RoutedEventArgs e)
@@ -55,11 +54,7 @@ namespace CustomerLoyaltyManagementSystem
 
 
 
-        /*
-private void UsersButton_Click(object sender, RoutedEventArgs e)
-{
-MainContent.Content = new UsersControl();
-}
+   /*
 
 private void ReportsButton_Click(object sender, RoutedEventArgs e)
 {
