@@ -152,3 +152,28 @@ Example entries for one day, both team members:
 - Finish CreateProgram window
 - start to do ManageCustomer window
 3. Need assistance / figure things out
+
+
+2024/11/25 Yunting Xie
+1. Done / not done since last scrum:
+
+2. To do until next Scrum:
+
+3. Need assistance / figure things out
+- 
+
+2024/11/25 Qiutian Wang
+1. Done / not done since last scrum:
+- customer can view loyalty points earn history
+- customer can view loyalty points conversion chart
+2. To do until next Scrum:
+- customer can redeem points
+3. Need assistance / figure things out
+- 
+
+2024/11/25 Kejia Li
+1. Done / not done since last scrum:
+-
+2. To do until next Scrum:
+
+3. Need assistance / figure things out
