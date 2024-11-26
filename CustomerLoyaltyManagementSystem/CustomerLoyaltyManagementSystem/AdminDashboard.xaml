@@ -42,28 +42,22 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <TabControl  Margin="0">
-            <!-- Manage Program Tab -->
-            <TabItem Header="Manage Program" BorderBrush="Transparent" BorderThickness="0">
-                <local:ProgramControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            </TabItem>
-            
-            <!--
-            
-            <TabItem Header="Manage Customer">
-                <local:CustomerControl />
-            </TabItem>
+        <Grid>
+            <!-- 整体布局：左侧侧边栏 + 右侧内容 -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-             
-            <TabItem Header="View Reports">
-                <local:ReportsControl />
-            </TabItem>
-            -->
-            
-        </TabControl>
-        
-        <!-- TODO: change to logout-->
-        <Button Content="Exit" Name="ExitButton" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="ExitButton_Click"/>
+            <!-- 左侧侧边栏 -->
+            <StackPanel Grid.Column="0" Background="#2C3E50" VerticalAlignment="Stretch">
+                <Button Content="Manage Programs" Name="ProgramsButton" Click="ProgramsButton_Click" Margin="10" Foreground="White" />
+                
+            </StackPanel>
+
+            <!-- 右侧内容区域 -->
+            <ContentControl Grid.Column="1" Name="MainContent" Margin="20" />
+        </Grid>
     </Grid>
 </Window>
 
