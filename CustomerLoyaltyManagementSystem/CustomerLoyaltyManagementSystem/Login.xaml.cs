@@ -46,6 +46,10 @@ namespace CustomerLoyaltyManagementSystem
 
                 // Successful login, set the flag to true
                 isLoginSuccessful = true;
+
+                // Store UserID and Email in session
+                Application.Current.Properties["UserID"] = user.UserID; 
+                Application.Current.Properties["Email"] = user.Email;
                 Navigation(user.Role);
             }
         }
