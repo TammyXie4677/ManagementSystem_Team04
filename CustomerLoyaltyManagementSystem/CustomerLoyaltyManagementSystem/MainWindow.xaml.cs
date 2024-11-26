@@ -52,21 +52,5 @@ namespace CustomerLoyaltyManagementSystem
             registration.Show();
             this.Close();
         }
-    
-
-        // This is the event handler for the button click
-        private void OnViewCustomerLoyaltyButtonClick(object sender, RoutedEventArgs e)
-        {
-            int customerId = 1; // Example: You can pass the actual customer ID here (dynamically assigned in your case)
-            ShowCustomerLoyaltyPage(customerId);
-        }
-
-        // This method will create and show the CustomerLoyaltyPage
-        private void ShowCustomerLoyaltyPage(int customerId)
-        {
-            CustomerLoyaltyPage customerLoyaltyPage = new CustomerLoyaltyPage(customerId);
-            customerLoyaltyPage.Show(); // Show the Customer Loyalty Page
-            this.Hide(); // Optionally hide the main window
-        }
     }
 }
