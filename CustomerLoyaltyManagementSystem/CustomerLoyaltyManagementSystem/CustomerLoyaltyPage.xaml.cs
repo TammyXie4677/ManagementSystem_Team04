@@ -18,9 +18,9 @@ namespace CustomerLoyaltyManagementSystem
 
             var conversionData = new List<ConversionChart>
         {
-            new ConversionChart { Tier = "Silver", ConversionRate = "100 points = $1", DollarValue = "1.0x" },
-            new ConversionChart { Tier = "Gold", ConversionRate = "100 points = $1.5", DollarValue = "1.5x" },
-            new ConversionChart { Tier = "Platinum", ConversionRate = "100 points = $2", DollarValue = "2.0x" }
+            new ConversionChart { Tier = "Silver", ConversionRate = "100 points = $10", DollarValue = "1.0x" },
+            new ConversionChart { Tier = "Gold", ConversionRate = "100 points = $15", DollarValue = "1.5x" },
+            new ConversionChart { Tier = "Platinum", ConversionRate = "100 points = $20", DollarValue = "2.0x" }
         };
 
             // Set DataContext or directly assign to DataGrid
@@ -129,11 +129,11 @@ namespace CustomerLoyaltyManagementSystem
             switch (tier.ToLower())
             {
                 case "silver":
-                    return points / 100.0;
+                    return points / 10.0;
                 case "gold":
-                    return points * 1.5 / 100.0;
+                    return points * 1.5 / 10.0;
                 case "platinum":
-                    return points * 2.0 / 100.0;
+                    return points * 2.0 / 10.0;
                 default:
                     return 0.0;
             }
