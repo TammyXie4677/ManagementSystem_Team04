@@ -60,29 +60,32 @@ namespace CustomerLoyaltyManagementSystem
 
         private string HashPassword(string password)
         {
-            using (var sha256 = System.Security.Cryptography.SHA256.Create())
-            {
-                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                return builder.ToString();
-            }
+            return BCrypt.Net.BCrypt.HashPassword(password);
+        }
+
+        private bool VerifyPassword(string password, string hashedPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
 
         private void StoreUserData(string email, string hashedPassword)
         {
-            using (var context = new managementsystem_dbEntities())
+            try
             {
-                var user = new User
+                using (var context = new managementsystem_dbEntities())
                 {
-                    Email = email,
-                    PasswordHashed = hashedPassword,
-                };
-                context.Users.Add(user);
-                context.SaveChanges();
+                    var user = new User
+                    {
+                        Email = email,
+                        PasswordHashed = hashedPassword,
+                    };
+                    context.Users.Add(user);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while saving user data: {ex.Message}", "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
