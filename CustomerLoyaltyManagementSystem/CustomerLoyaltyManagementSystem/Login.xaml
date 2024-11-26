@@ -43,9 +43,11 @@
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
             <TextBlock Text="Email:" FontSize="20"/>
-            <TextBox Name="EmailTextBox" Margin="0,0,0,10" FontSize="20"/>
+            <TextBox Name="EmailTextBox" Margin="0,0,0,5" FontSize="20"/>
+            <TextBlock Name="EmailErrorTextBlock" Foreground="Red" FontSize="12" Margin="0,0,0,10"/>
             <TextBlock Text="Password:" FontSize="20"/>
-            <PasswordBox Name="PasswordBox" Margin="0,0,0,20" FontSize="20"/>
+            <PasswordBox Name="PasswordBox" Margin="0,0,0,5" FontSize="20"/>
+            <TextBlock Name="PasswordErrorTextBlock" Foreground="Red" FontSize="12" Margin="0,0,0,10"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="Login" Width="120" Margin="0,0,10,0" FontSize="20" Click="LoginButton_Click"/>
                 <Button Content="Exit" Width="120" FontSize="20" Click="ExitButton_Click" Style="{StaticResource GreyButtonStyle}"/>
