@@ -39,8 +39,8 @@
                 </TextBlock.Effect>
                 <TextBlock.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#19335A" Offset="0" />
-                        <GradientStop Color="#8FC8EB" Offset="1" />
+                        <GradientStop Color="#8FC8EB" Offset="0" />
+                        <GradientStop Color="#19335A" Offset="1" />
                     </LinearGradientBrush>
                 </TextBlock.Background>
             </TextBlock>
