@@ -20,6 +20,7 @@ namespace CustomerLoyaltyManagementSystem
     public partial class EmailVerificationDialog : Window
     {
         private string userEmail;
+        public bool IsVerified { get; private set; }
         public EmailVerificationDialog(string email)
         {
             InitializeComponent();
@@ -28,8 +29,22 @@ namespace CustomerLoyaltyManagementSystem
 
         private void VerifyButton_Click(object sender, RoutedEventArgs e)
         {
-            //For testing
-            MessageBox.Show("Verify button clicked!");
+            string enteredCode = VerificationCodeTextBox.Text;
+
+            using (var context = new managementsystem_dbEntities())
+            {
+                var user = context.Users.FirstOrDefault(u => u.Email == userEmail);
+                if (user != null && user.VerificationCode == enteredCode)
+                {
+                    IsVerified = true;
+                    this.DialogResult = true;
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid verification code. Please try again.", "Verification Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private void ResendButton_Click(object sender, RoutedEventArgs e)
