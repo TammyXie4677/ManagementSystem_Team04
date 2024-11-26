@@ -82,6 +82,9 @@
     <Compile Include="Control\ProgramControl.xaml.cs">
       <DependentUpon>ProgramControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Control\UsersControl.xaml.cs">
+      <DependentUpon>UsersControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ConversionChart.cs" />
     <!-- C# files -->
     <Compile Include="Customer.cs">
@@ -124,6 +127,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Control\ProgramControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\UsersControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
