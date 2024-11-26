@@ -31,46 +31,52 @@
                             </StackPanel>
                             <!-- Total Loyalty Points -->
                             <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
-                                <TextBlock Text="Total Available Points:" FontSize="16" FontWeight="Bold" Foreground="#555" Width="180"/>
+                                <TextBlock Text="Total Available Points:" FontSize="16" FontWeight="Bold" Foreground="#555" Width="200"/>
                                 <TextBlock x:Name="TotalEarnedPointsText" FontSize="16" Foreground="#333"/>
                             </StackPanel>
                            
                             <!-- Total Redeemed Points -->
                             <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
-                                <TextBlock Text="Total Redeemed Points:" FontSize="16" FontWeight="Bold" Foreground="#555" Width="180"/>
+                                <TextBlock Text="Total Redeemed Points:" FontSize="16" FontWeight="Bold" Foreground="#555" Width="200"/>
                                 <TextBlock x:Name="TotalRedeemedPointsText" FontSize="16" Foreground="#333"/>
                             </StackPanel>
 
                         </StackPanel>
                     </Border>
 
-                    <!-- Redeemable Value and Conversion Chart Section -->
-                    <Border Background="White" Padding="20" Margin="0,0,0,20" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" 
-                            Effect="{DynamicResource ShadowEffect}">
+                    <Border Background="White" Padding="20" Margin="0,0,0,20" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Effect="{DynamicResource ShadowEffect}">
                         <StackPanel>
-                            <!-- Redeemable Value -->
+                            <!-- Redeemable Value Header -->
                             <TextBlock Text="Redeemable Value" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,15" Foreground="#2A9D8F"/>
+
+                            <!-- Redeemable Value Text -->
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,15">
                                 <TextBlock Text="You can redeem:" FontSize="16" FontWeight="Bold" Foreground="#555" Width="150"/>
                                 <TextBlock x:Name="RedeemableValueText" FontSize="16" Foreground="#333"/>
                             </StackPanel>
+                            
+                            <!-- Redeem Points Section: Align Header, Input Field and Button in the same row -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,20">
+                                <!-- Header for Input Field -->
+                                <TextBlock Text="Enter Points to Redeem:" FontSize="16" FontWeight="Bold" Foreground="#555" Margin="0,0,10,0" VerticalAlignment="Center"/>
 
+                                <!-- Input Field for Points -->
+                                <TextBox x:Name="RedeemPointsTextBox" Width="200" Height="30" Margin="0,0,10,0" Padding="5" VerticalAlignment="Center"/>
 
-                            <TextBox x:Name="RedeemPointsTextBox" Width="200" Height="30" Margin="10" />
+                                <!-- Redeem Button -->
+                                <Button Content="Redeem Points" Width="150" Height="40" FontSize="16" FontWeight="SemiBold" Foreground="White"
+                    Background="#2A9D8F" BorderBrush="#2A9D8F" BorderThickness="1" VerticalAlignment="Center"
+                    HorizontalAlignment="Center" Margin="0,0,0,0" Click="RedeemButton_Click"/>
+                            </StackPanel>
 
-                            <Button Content="Redeem Points" Width="120" Height="40" FontSize="16" FontWeight="SemiBold" Foreground="White"
-        Background="#2A9D8F" BorderBrush="#2A9D8F" BorderThickness="1" Margin="0,20,0,0"
-        HorizontalAlignment="Center" VerticalAlignment="Top" Click="RedeemButton_Click">
-                            </Button>
+                            <!-- Conversion Chart Section -->
+                            <TextBlock Text="Conversion Chart" FontSize="16" FontWeight="SemiBold" Margin="0,20,0,10" Foreground="#2A9D8F"/>
 
-
-                            <!-- Conversion Chart -->
-
-                            <!-- Headers for the Conversion Chart -->
+                            <!-- Headers for Conversion Chart -->
                             <StackPanel Orientation="Horizontal" Margin="0,5,0,10">
                                 <TextBlock Text="Tier" FontSize="14" FontWeight="Bold" Foreground="#555" Width="150"/>
                                 <Border Background="#E0E0E0" Margin="5,0" Width="1"/>
-                                <TextBlock Text="$Value per Point" FontSize="14" FontWeight="Bold" Foreground="#555" Width="150"/>
+                                <TextBlock Text="$Value per Point" FontSize="14" FontWeight="Bold" Foreground="#555" Width="200"/>
                                 <Border Background="#E0E0E0" Margin="5,0" Width="1"/>
                                 <TextBlock Text="Dollar Value" FontSize="14" FontWeight="Bold" Foreground="#555" Width="150"/>
                             </StackPanel>
@@ -82,7 +88,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Tier}" FontSize="16" Foreground="#333" Width="150"/>
                                             <Border Background="#E0E0E0" Margin="5,0" Width="1"/>
-                                            <TextBlock Text="{Binding ConversionRate}" FontSize="16" Foreground="#333" Width="150"/>
+                                            <TextBlock Text="{Binding ConversionRate}" FontSize="16" Foreground="#333" Width="200"/>
                                             <Border Background="#E0E0E0" Margin="5,0" Width="1"/>
                                             <TextBlock Text="{Binding DollarValue}" FontSize="16" Foreground="#333" Width="150"/>
                                         </StackPanel>
@@ -92,19 +98,21 @@
                         </StackPanel>
                     </Border>
 
+
+
                     <!-- Points Earn History Section -->
                     <Border Background="White" Padding="20" Margin="0,20,0,30" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Effect="{DynamicResource ShadowEffect}">
                         <StackPanel>
-                            <TextBlock Text="Points Earn History" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,15" Foreground="#2A9D8F"/>
+                            <TextBlock Text="Points Transaction History" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,15" Foreground="#2A9D8F"/>
                             <!-- Headers for the Transaction List -->
                             <StackPanel Orientation="Horizontal" Margin="0,5,0,10">
-                                <TextBlock Text="Date" FontSize="14" FontWeight="Bold" Foreground="#555" Width="120"/>
+                                <TextBlock Text="Date" FontSize="14" FontWeight="Bold" Foreground="#555" Width="200"/>
                                 <Border Background="#E0E0E0" Margin="5,0" Width="1"/>
-                                <TextBlock Text="Points Earned" FontSize="14" FontWeight="Bold" Foreground="#555" Width="150"/>
+                                <TextBlock Text="Points Earned" FontSize="14" FontWeight="Bold" Foreground="#555" Width="100"/>
                                 <Border Background="#E0E0E0" Margin="5,0" Width="1"/>
-                                <TextBlock Text="Points Redeemed" FontSize="14" FontWeight="Bold" Foreground="#555" Width="150"/>
+                                <TextBlock Text="Points Redeemed" FontSize="14" FontWeight="Bold" Foreground="#555" Width="120"/>
                                 <Border Background="#E0E0E0" Margin="5,0" Width="1"/>
-                                <TextBlock Text="Transaction Type" FontSize="14" FontWeight="Bold" Foreground="#555" Width="200"/>
+                                <TextBlock Text="Details" FontSize="14" FontWeight="Bold" Foreground="#555" Width="200"/>
                             </StackPanel>
 
                             <!-- Transaction List -->
@@ -112,13 +120,13 @@
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Date}" FontSize="16" Foreground="#333" Width="120"/>
+                                            <TextBlock Text="{Binding Date}" FontSize="16" Foreground="#333" Width="200"/>
                                             <Border Background="#E0E0E0" Margin="5,0" Width="1"/>
-                                            <TextBlock Text="{Binding PointsEarned}" FontSize="16" Foreground="#333" Width="150"/>
+                                            <TextBlock Text="{Binding PointsEarned}" FontSize="16" Foreground="#333" Width="100"/>
                                             <Border Background="#E0E0E0" Margin="5,0" Width="1"/>
-                                            <TextBlock Text="{Binding PointsRedeemed}" FontSize="16" Foreground="#333" Width="150"/>
+                                            <TextBlock Text="{Binding PointsRedeemed}" FontSize="16" Foreground="#333" Width="120"/>
                                             <Border Background="#E0E0E0" Margin="5,0" Width="1"/>
-                                            <TextBlock Text="{Binding TransactionType}" FontSize="16" Foreground="#333" Width="250"/>
+                                            <TextBlock Text="{Binding TransactionType}" FontSize="16" Foreground="#333" Width="200"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
