@@ -24,22 +24,46 @@ namespace CustomerLoyaltyManagementSystem
         public AdminDashboard()
         {
             InitializeComponent();
-            MainContent.Content = new ProgramControl(); // 默认加载促销活动页面
         }
 
-        private void ProgramsButton_Click(object sender, RoutedEventArgs e)
+        private void ManagePrograms_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Content = new ProgramControl();
         }
-        /*
-        private void UsersButton_Click(object sender, RoutedEventArgs e)
+
+        private void ManageUsers_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new UsersControl();
+            // For testing
+            MessageBox.Show("Manage Users button clicked!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void ReportsButton_Click(object sender, RoutedEventArgs e)
+        private void GenerateReports_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new ReportsControl();
-        }*/
+            // For testing
+            MessageBox.Show("Generate Reports button clicked!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e) 
+        { 
+            this.Close(); 
+        }
+
+        private void Help_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Help section is under construction.", "Help", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+
+
+        /*
+private void UsersButton_Click(object sender, RoutedEventArgs e)
+{
+MainContent.Content = new UsersControl();
+}
+
+private void ReportsButton_Click(object sender, RoutedEventArgs e)
+{
+MainContent.Content = new ReportsControl();
+}*/
     }
 }
