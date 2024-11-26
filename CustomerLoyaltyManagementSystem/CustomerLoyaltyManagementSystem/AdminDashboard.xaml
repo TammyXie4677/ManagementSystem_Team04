@@ -5,59 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomerLoyaltyManagementSystem.Control"
         mc:Ignorable="d"
-        Title="AdminDashboard" Height="800" Width="800">
+        Title="AdminDashboard" Height="800" Width="1000">
 
-    <!-- Define the button style here -->
-    <Window.Resources>
-        <Style TargetType="Button">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Background" Value="#0C99B5"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="Width" Value="130"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-        <!-- Style for DataGrid column headers -->
-        <Style TargetType="DataGridColumnHeader">
-            <Setter Property="Background" Value="#0C99B5"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        </Style>
-
-        <!-- Style for DataGrid row on mouse hover -->
-        <Style TargetType="DataGridRow">
-            <Setter Property="Background" Value="White"/>
-            <!-- Remove row border -->
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#1294AE"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
-    <Grid>
-        <Grid>
-            <!-- 整体布局：左侧侧边栏 + 右侧内容 -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <!-- 左侧侧边栏 -->
-            <StackPanel Grid.Column="0" Background="#2C3E50" VerticalAlignment="Stretch">
-                <Button Content="Manage Programs" Name="ProgramsButton" Click="ProgramsButton_Click" Margin="10" Foreground="White" />
-                
-            </StackPanel>
-
-            <!-- 右侧内容区域 -->
-            <ContentControl Grid.Column="1" Name="MainContent" Margin="20" />
-        </Grid>
-    </Grid>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Exit" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="_Manage Users" Click="ManageUsers_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/WpfTutorialSamples;component/Images/user.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Manage Programs">
+                    <MenuItem Header="_Add New" Click="ManagePrograms_Click"/>
+                    <MenuItem Header="_View"/>
+                </MenuItem>
+                <MenuItem Header="_Generate Reports" Click="GenerateReports_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Help" Click="Help_Click"></MenuItem>
+        </Menu>
+        <!-- Main Content Area -->
+        <ContentControl Name="MainContent" Margin="20"/>
+    </DockPanel>
 </Window>
-
