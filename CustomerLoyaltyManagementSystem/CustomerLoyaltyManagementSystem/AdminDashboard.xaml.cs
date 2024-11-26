@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CustomerLoyaltyManagementSystem.Control;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -23,14 +24,22 @@ namespace CustomerLoyaltyManagementSystem
         public AdminDashboard()
         {
             InitializeComponent();
+            MainContent.Content = new ProgramControl(); // 默认加载促销活动页面
         }
 
-
-        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        private void ProgramsButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-            this.Close();
+            MainContent.Content = new ProgramControl();
         }
+        /*
+        private void UsersButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new UsersControl();
+        }
+
+        private void ReportsButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new ReportsControl();
+        }*/
     }
 }
