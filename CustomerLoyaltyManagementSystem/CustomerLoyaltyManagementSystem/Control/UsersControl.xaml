@@ -11,13 +11,25 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="CustomerID" DisplayMemberBinding="{Binding CustomerID}" Width="100" />
-                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="200" />
-                    <GridViewColumn Header="LoyaltyPoints" DisplayMemberBinding="{Binding LoyaltyPoints}" Width="100" />
-                    <GridViewColumn Header="Tier" DisplayMemberBinding="{Binding Tier}" Width="100" />
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="250" />
+                    <GridViewColumn Header="LoyaltyPoints (> 0 )" Width="150">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding LoyaltyPoints, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="LoyaltyPoints_PreviewTextInput" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Tier" DisplayMemberBinding="{Binding Tier}" Width="150" />
+                    <GridViewColumn Header="Actions" Width="150">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Save" Click="SaveChanges_Click" CommandParameter="{Binding}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
     </Grid>
 </UserControl>
-
 
