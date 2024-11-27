@@ -122,7 +122,7 @@ namespace UnitTestCustomerLoyaltyManagementSystem
                 PasswordHashed = "hashedpassword",
                 DateJoined = DateTime.Now,
                 Role = "Admin",
-                VerificationCode = "",
+                VerificationCode = "123456",
                 IsVerified = true
             };
 
@@ -132,7 +132,7 @@ namespace UnitTestCustomerLoyaltyManagementSystem
             Assert.AreEqual("hashedpassword", user.PasswordHashed);
             Assert.IsNotNull(user.DateJoined);
             Assert.AreEqual("Admin", user.Role);
-            Assert.AreEqual("", user.VerificationCode);
+            Assert.AreEqual("123456", user.VerificationCode);
             Assert.IsTrue(user.IsVerified);
         }
 
@@ -154,8 +154,141 @@ namespace UnitTestCustomerLoyaltyManagementSystem
             Assert.AreEqual(100, customer.LoyaltyPoints);
             Assert.AreEqual("Gold", customer.Tier);
         }
+
+        [TestMethod]
+        public void TestCustomerPointsNonNegative()
+        {
+            // Arrange
+            bool allPointsNonNegative = true;
+
+            // Act
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand("SELECT LoyaltyPoints FROM Customer", connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var points = reader["LoyaltyPoints"] as int?;
+                            if (points.HasValue && points < 0)
+                            {
+                                allPointsNonNegative = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Assert
+            Assert.IsTrue(allPointsNonNegative, "All customer loyalty points should be non-negative.");
+        }
+
+        [TestMethod]
+        public void TestUserEmailNotNullOrEmpty()
+        {
+            // Arrange
+            bool allEmailsValid = true;
+
+            // Act
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand("SELECT Email FROM [User]", connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var email = reader["Email"].ToString();
+                            if (string.IsNullOrEmpty(email))
+                            {
+                                allEmailsValid = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Assert
+            Assert.IsTrue(allEmailsValid, "All user emails should be non-null and non-empty.");
+        }
+
+        [TestMethod]
+        public void TestLoyaltyProgramDatesValidity()
+        {
+            // Arrange
+            bool allDatesValid = true;
+
+            // Act
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand("SELECT StartDate, EndDate FROM LoyaltyProgram", connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var startDate = reader["StartDate"] as DateTime?;
+                            var endDate = reader["EndDate"] as DateTime?;
+                            if (startDate.HasValue && endDate.HasValue && startDate > endDate)
+                            {
+                                allDatesValid = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Assert
+            Assert.IsTrue(allDatesValid, "All loyalty program start dates should be before end dates.");
+        }
+
+        [TestMethod]
+        public void TestAdd100PointsToUser()
+        {
+            // Arrange
+            int userId = 1; // Example user ID
+            int initialPoints = 0;
+            int pointsToAdd = 100;
+            int finalPoints = 0;
+
+            // Act
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // Get initial points
+                using (var command = new SqlCommand("SELECT LoyaltyPoints FROM Customer WHERE UserID = @UserID", connection))
+                {
+                    command.Parameters.AddWithValue("@UserID", userId);
+                    initialPoints = (int)command.ExecuteScalar();
+                }
+
+                // Add points
+                using (var command = new SqlCommand("UPDATE Customer SET LoyaltyPoints = LoyaltyPoints + @PointsToAdd WHERE UserID = @UserID", connection))
+                {
+                    command.Parameters.AddWithValue("@PointsToAdd", pointsToAdd);
+                    command.Parameters.AddWithValue("@UserID", userId);
+                    command.ExecuteNonQuery();
+                }
+
+                // Get final points
+                using (var command = new SqlCommand("SELECT LoyaltyPoints FROM Customer WHERE UserID = @UserID", connection))
+                {
+                    command.Parameters.AddWithValue("@UserID", userId);
+                    finalPoints = (int)command.ExecuteScalar();
+                }
+            }
+
+            // Assert
+            Assert.AreEqual(initialPoints + pointsToAdd, finalPoints, "User should have 100 points added to their loyalty points.");
+        }
     }
 }
-
-
 
