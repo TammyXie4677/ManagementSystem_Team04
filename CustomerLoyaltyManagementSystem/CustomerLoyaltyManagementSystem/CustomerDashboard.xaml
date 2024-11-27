@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomerLoyaltyManagementSystem.Control"
         mc:Ignorable="d"
-        Title="CustomerDashboard" Height="800" Width="1000">
+        Title="CustomerDashboard" Height="284" Width="438">
 
-    <DockPanel>
+    <DockPanel Margin="0,0,0,32">
+        <!-- Menu Bar -->
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_Exit" Click="Exit_Click"/>
@@ -18,9 +19,20 @@
             </MenuItem>
             <MenuItem Header="_Help" Click="Help_Click"/>
         </Menu>
+
+        <!-- Main Content Area -->
+        <Grid DockPanel.Dock="Top" Margin="20">
+            <!-- Centered StackPanel to hold buttons -->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <!-- Button to view Customer Loyalty -->
+                <Button Content="View Customer Loyalty" Width="200" Height="50" Margin="0,0,0,20" Click="OnViewCustomerLoyaltyButtonClick"/>
+
+                <!-- Button to view Loyalty Programs -->
+                <Button Content="View Loyalty Programs" Width="200" Height="50" Click="OnViewLoyaltyProgramsButtonClick"/>
+            </StackPanel>
+        </Grid>
+
         <!-- TextBlock for displaying email -->
         <TextBlock Name="emailTextBlock" DockPanel.Dock="Bottom" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Text="Ready"/>
     </DockPanel>
 </Window>
-
-
