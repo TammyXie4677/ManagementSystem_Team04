@@ -168,24 +168,56 @@ namespace CustomerLoyaltyManagementSystem
             {
                 using (var context = new managementsystem_dbEntities())
                 {
+                    // Create a new User entity
                     var user = new User
                     {
                         Email = email,
                         PasswordHashed = hashedPassword,
                         Role = "Customer",
                         DateJoined = DateTime.Now,
-                        // VerificationCode = verificationCode,
                         IsVerified = false // Set to false until the user verifies
                     };
+
+                    // Add the User entity to the context
                     context.Users.Add(user);
-                    context.SaveChanges();
+                    context.SaveChanges(); // Save changes to generate UserID
+
+                    // Create a corresponding Customer entity with the same ID as UserID
+                    var customer = new Customer
+                    {
+                        CustomerID = user.UserID, // Explicitly set CustomerID to match UserID
+                        UserID = user.UserID,    // Reference the associated user
+                        Tier = "Silver",         // Default tier
+                        LoyaltyPoints = 100      // Default loyalty points
+                    };
+
+                    // Add the Customer entity to the context
+                    context.Customers.Add(customer);
+                    context.SaveChanges(); // Save changes for the Customer entity
+
+                    // Create a corresponding TransactionLoyalty record
+                    var transactionLoyalty = new TransactionLoyalty
+                    {
+                        CustomerID = customer.CustomerID, // Same as UserID
+                        ProgramID = 1, // Default ProgramID (adjust based on your setup)
+                        Date = DateTime.Now, // Current date
+                        Amount = 0, // No initial amount
+                        PointsEarned = 100, // Initial points assigned to the customer
+                        PointsRedeemed = 0, // No points redeemed initially
+                        TransactionType = "Program" // Description of the transaction type
+                    };
+
+                    // Add the TransactionLoyalty entity to the context
+                    context.TransactionLoyalties.Add(transactionLoyalty);
+                    context.SaveChanges(); // Save changes for the TransactionLoyalty entity
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred while saving user data: {ex.Message}", "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"An error occurred while saving user, customer, and transaction data: {ex.Message}", "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {

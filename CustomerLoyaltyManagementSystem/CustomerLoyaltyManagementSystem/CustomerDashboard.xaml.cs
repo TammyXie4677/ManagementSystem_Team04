@@ -19,9 +19,12 @@ namespace CustomerLoyaltyManagementSystem
     /// </summary>
     public partial class CustomerDashboard : Window
     {
-        public CustomerDashboard()
+        private int userId;
+        public CustomerDashboard(int userID)
         {
             InitializeComponent();
+            this.userId = userID;
+
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -37,16 +40,27 @@ namespace CustomerLoyaltyManagementSystem
         // This is the event handler for the button click
         private void OnViewCustomerLoyaltyButtonClick(object sender, RoutedEventArgs e)
         {
-            int customerId = 1; // Example: You can pass the actual customer ID here (dynamically assigned in your case)
-            ShowCustomerLoyaltyPage(customerId);
+            ShowCustomerLoyaltyPage(userId);
         }
 
         // This method will create and show the CustomerLoyaltyPage
-        private void ShowCustomerLoyaltyPage(int customerId)
+        private void ShowCustomerLoyaltyPage(int userId)
         {
-            CustomerLoyaltyPage customerLoyaltyPage = new CustomerLoyaltyPage(customerId);
-            customerLoyaltyPage.Show(); // Show the Customer Loyalty Page
-            this.Hide(); // Optionally hide the main window
+            using (var context = new managementsystem_dbEntities())
+            {
+                var customer = context.Customers.SingleOrDefault(c => c.UserID == userId);
+                if (customer != null)
+                {
+                    CustomerLoyaltyPage customerLoyaltyPage = new CustomerLoyaltyPage(customer.CustomerID);
+                    customerLoyaltyPage.Show(); // Show the Customer Loyalty Page
+                    this.Hide(); // Optionally hide the dashboard window
+                }
+                else
+                {
+                    MessageBox.Show("Customer information not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
+
     }
 }

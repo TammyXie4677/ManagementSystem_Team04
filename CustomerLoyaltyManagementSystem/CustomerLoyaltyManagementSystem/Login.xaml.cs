@@ -93,7 +93,8 @@ namespace CustomerLoyaltyManagementSystem
             }
             else
             {
-               CustomerDashboard customerDashboard = new CustomerDashboard();
+                int userId = (int)Application.Current.Properties["UserID"];
+                CustomerDashboard customerDashboard = new CustomerDashboard(userId);
                 customerDashboard.Show();
             }
 
