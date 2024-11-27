@@ -181,9 +181,13 @@ Example entries for one day, both team members:
 
 2024/11/26 Yunting Xie
 1. Done / not done since last scrum:
-
+- Navigated to Admin and Customer Dashboard
+- Stored User's info in session
+- Created a Test in UnitTest Project
 2. To do until next Scrum:
-
+- managing users as Admin
+- Generating some reports as Admin
+- Working Presentation ppt
 3. Need assistance / figure things out
 
 
