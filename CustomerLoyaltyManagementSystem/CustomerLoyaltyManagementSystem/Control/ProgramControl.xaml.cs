@@ -27,7 +27,8 @@ namespace CustomerLoyaltyManagementSystem.Control
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public string ProgramTier { get; set; }
+        public string Tier { get; set; }
+        public string Points { get; set; }
 
     }
 
@@ -49,7 +50,8 @@ namespace CustomerLoyaltyManagementSystem.Control
             var endDate = EndDatePicker.SelectedDate;
             var selectedItem = TierComboBox.SelectedItem as ComboBoxItem;
             var selectedTier = selectedItem?.Content.ToString();
-
+            string points = PointsTextBox.Text;
+            
             if (string.IsNullOrWhiteSpace(promotionName) ||
                 string.IsNullOrWhiteSpace(description) ||
                 startDate == null || endDate == null ||
@@ -83,11 +85,11 @@ namespace CustomerLoyaltyManagementSystem.Control
             }
 
             // save to db
-            SaveProgramToDatabase(promotionName, description, startDate.Value, endDate.Value, selectedTier);
+            SaveProgramToDatabase(promotionName, description, startDate.Value, endDate.Value, selectedTier, points);
             LoadPrograms();
         }
 
-        private void SaveProgramToDatabase(string promotionName, string description, DateTime startDate, DateTime endDate, string tier)
+        private void SaveProgramToDatabase(string promotionName, string description, DateTime startDate, DateTime endDate, string tier, string points)
         {
             try
             {
@@ -95,16 +97,16 @@ namespace CustomerLoyaltyManagementSystem.Control
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {   
                     conn.Open();
-                    string query = "INSERT INTO LoyaltyProgram (ProgramName, Description, StartDate, EndDate, ProgramTier) " +
-                                   "VALUES (@ProgramName, @Description, @StartDate, @EndDate, @ProgramTier)";
+                    string query = "INSERT INTO LoyaltyProgram (ProgramName, Description, StartDate, EndDate, Tier, Points) " +
+                                   "VALUES (@ProgramName, @Description, @StartDate, @EndDate, @Tier, @Points)";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@ProgramName", promotionName);
                         cmd.Parameters.AddWithValue("@Description", description);
                         cmd.Parameters.AddWithValue("@StartDate", startDate);
                         cmd.Parameters.AddWithValue("@EndDate", endDate);
-                        cmd.Parameters.AddWithValue("@ProgramTier", tier);
-
+                        cmd.Parameters.AddWithValue("@Tier", tier);
+                        cmd.Parameters.AddWithValue("@Points", points);
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -129,6 +131,7 @@ namespace CustomerLoyaltyManagementSystem.Control
             StartDatePicker.SelectedDate = null;
             EndDatePicker.SelectedDate = null;
             TierComboBox.SelectedIndex = 0; // Reset dropdown to "Select a Tier"
+            PointsTextBox.Text = string.Empty;
         }
 
         // get all programs from db
@@ -160,7 +163,8 @@ namespace CustomerLoyaltyManagementSystem.Control
                                     Description = reader["Description"].ToString(),
                                     StartDate = reader["StartDate"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(reader["StartDate"]),
                                     EndDate = reader["EndDate"] == DBNull.Value ? DateTime.MinValue: Convert.ToDateTime(reader["EndDate"]),
-                                    ProgramTier = reader["ProgramTier"].ToString()
+                                    Tier = reader["Tier"].ToString(),
+                                    Points = reader["Points"].ToString()
                                 };
                                 programs.Add(program);
                             }
@@ -181,18 +185,18 @@ namespace CustomerLoyaltyManagementSystem.Control
         }
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            // 获取当前选中行的 ProgramModel
+            // get ProgramModel from current row
             var selectedProgram = (Program)ProgramsDataGrid.SelectedItem;
             if (selectedProgram != null)
             {
                 MessageBox.Show($"Edit {selectedProgram.ProgramName} (implement your logic here)", "Edit", MessageBoxButton.OK);
-                // 添加编辑逻辑，例如弹出编辑窗口
+                // TODO: add edit logic
             }
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            // 获取当前选中行的 ProgramModel
+            // get ProgramModel from current row
             var selectedProgram = (Program)ProgramsDataGrid.SelectedItem;
             if (selectedProgram != null)
             {
@@ -200,7 +204,7 @@ namespace CustomerLoyaltyManagementSystem.Control
                 if (result == MessageBoxResult.Yes)
                 {
                     DeleteProgram(selectedProgram.ProgramName);
-                    LoadPrograms(); // 刷新表格
+                    LoadPrograms(); // update table
                 }
             }
         }
