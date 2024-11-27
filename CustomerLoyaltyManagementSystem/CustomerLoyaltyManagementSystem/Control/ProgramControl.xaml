@@ -10,11 +10,11 @@
         >
 
     <StackPanel Margin="0" Background="#F5F5F5" >
-        <!-- 折叠面板 -->
         <Expander Header="Create New Program" IsExpanded="True" Margin="0,0,0,10">
             <StackPanel>
                 <Grid Margin="0">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -44,6 +44,8 @@
                         <ComboBoxItem Content="Gold"/>
                         <ComboBoxItem Content="Platinum"/>
                     </ComboBox>
+                    <TextBlock Text="Points:" VerticalAlignment="Center" Margin="10,0,10,0" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"/>
+                    <TextBox Name="PointsTextBox" Grid.Row="5" Grid.Column="2" Margin="5,5,5,5" />
                 </Grid>
                 <!-- Buttons -->
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
@@ -59,12 +61,13 @@
                   CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single">
                 <!-- 定义列 -->
                 <DataGrid.Columns>
+                    <DataGridTextColumn Header="Program ID" Binding="{Binding ProgramID}" Width="*" />
                     <DataGridTextColumn Header="Program Name" Binding="{Binding ProgramName}" Width="2*" />
                     <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="3*" />
                     <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" Width="*"/>
                     <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" Width="*"/>
-                    <DataGridTextColumn Header="Program Tier" Binding="{Binding ProgramTier}" Width="1.5*" />
-
+                    <DataGridTextColumn Header="Tier" Binding="{Binding Tier}" Width="1.5*" />
+                    <DataGridTextColumn Header="Points" Binding="{Binding Points}" Width="1.5*" />
                     <!-- 操作按钮 -->
                     <DataGridTemplateColumn Header="Actions" Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>
