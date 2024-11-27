@@ -49,8 +49,8 @@
                 </Grid>
                 <!-- Buttons -->
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                    <Button Content="Save Program" Name="SavePromotionButton" Margin="0,5" Width="100" Click="SavePromotionButton_Click"/>
-                    <Button Content="Clear" Name="ClearButton" Margin="20,5,5,5" Width="100" Click="ClearButton_Click"/>
+                    <Button Content="Save Program" Background="#148CD1" Foreground="White" Name="SavePromotionButton" Margin="0,5" Width="100" Click="SavePromotionButton_Click"/>
+                    <Button Content="Clear" Background="#148CD1" Foreground="White" Name="ClearButton" Margin="20,5,5,5" Width="100" Click="ClearButton_Click"/>
                 </StackPanel>
             </StackPanel>
         </Expander>
@@ -73,8 +73,8 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Button Content="Edit" Margin="5" Click="EditButton_Click"/>
-                                    <Button Content="Delete" Margin="5" Click="DeleteButton_Click"/>
+                                    <Button Content="Edit" Background="#148CD1" Foreground="White" Margin="5" Click="EditButton_Click"/>
+                                    <Button Content="Delete" Background="Red" Foreground="White" Margin="5" Click="DeleteButton_Click"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
