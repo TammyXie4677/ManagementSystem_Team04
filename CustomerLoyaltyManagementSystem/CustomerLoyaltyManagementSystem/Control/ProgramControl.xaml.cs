@@ -22,7 +22,7 @@ namespace CustomerLoyaltyManagementSystem.Control
     /// 
     public class Program
     {
-        public int Id { get; set; }
+        public int ProgramID { get; set; }
         public string ProgramName { get; set; }
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
@@ -159,6 +159,7 @@ namespace CustomerLoyaltyManagementSystem.Control
                             {
                                 Program program = new Program
                                 {
+                                    ProgramID = reader.GetInt32(0),
                                     ProgramName = reader["ProgramName"].ToString(),
                                     Description = reader["Description"].ToString(),
                                     StartDate = reader["StartDate"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(reader["StartDate"]),
