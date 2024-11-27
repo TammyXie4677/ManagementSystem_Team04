@@ -64,8 +64,8 @@
                     <DataGridTextColumn Header="Program ID" Binding="{Binding ProgramID}" Width="*" />
                     <DataGridTextColumn Header="Program Name" Binding="{Binding ProgramName}" Width="2*" />
                     <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="3*" />
-                    <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" Width="*"/>
-                    <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" Width="*"/>
+                    <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate, StringFormat=\{0:yyyy-MM-dd\}}" Width="*"/>
+                    <DataGridTextColumn Header="End Date" Binding="{Binding EndDate, StringFormat=\{0:yyyy-MM-dd\}}" Width="*"/>
                     <DataGridTextColumn Header="Tier" Binding="{Binding Tier}" Width="1.5*" />
                     <DataGridTextColumn Header="Points" Binding="{Binding Points}" Width="1.5*" />
                     <!-- 操作按钮 -->
