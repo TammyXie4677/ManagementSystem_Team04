@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="managementsystem_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="managementsystem_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="CustomerID" />
@@ -23,7 +23,8 @@
           <Property Name="Description" Type="varchar" MaxLength="255" />
           <Property Name="StartDate" Type="datetime" />
           <Property Name="EndDate" Type="datetime" />
-          <Property Name="ProgramTier" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Tier" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Points" Type="int" />
         </EntityType>
         <EntityType Name="Report">
           <Key>
@@ -144,8 +145,7 @@
             <End Role="TransactionLoyalty" EntitySet="TransactionLoyalty" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="managementsystem_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -169,8 +169,9 @@
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="StartDate" Type="DateTime" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Precision="3" />
-          <Property Name="ProgramTier" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="TransactionLoyalties" Relationship="Self.FK_TransactionLoyalty_Program" FromRole="LoyaltyProgram" ToRole="TransactionLoyalty" />
+          <Property Name="Points" Type="Int32" />
+          <Property Name="Tier" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Report">
           <Key>
@@ -315,12 +316,13 @@
           <EntitySetMapping Name="LoyaltyPrograms">
             <EntityTypeMapping TypeName="managementsystem_dbModel.LoyaltyProgram">
               <MappingFragment StoreEntitySet="LoyaltyProgram">
+                <ScalarProperty Name="Tier" ColumnName="Tier" />
+                <ScalarProperty Name="Points" ColumnName="Points" />
                 <ScalarProperty Name="ProgramID" ColumnName="ProgramID" />
                 <ScalarProperty Name="ProgramName" ColumnName="ProgramName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="ProgramTier" ColumnName="ProgramTier" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

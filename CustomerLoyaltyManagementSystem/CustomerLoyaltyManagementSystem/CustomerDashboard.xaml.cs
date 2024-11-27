@@ -1,31 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CustomerLoyaltyManagementSystem
 {
-    /// <summary>
-    /// Interaction logic for CustomerDashboard.xaml
-    /// </summary>
     public partial class CustomerDashboard : Window
     {
         private int userId;
+
         public CustomerDashboard(int userID)
         {
             InitializeComponent();
             DisplayUserEmail();
             this.userId = userID;
-
         }
 
         private void DisplayUserEmail()
@@ -53,7 +39,11 @@ namespace CustomerLoyaltyManagementSystem
             ShowCustomerLoyaltyPage(userId);
         }
 
-        // This method will create and show the CustomerLoyaltyPage
+        private void OnViewLoyaltyProgramsButtonClick(object sender, RoutedEventArgs e)
+        {
+            ShowLoyaltyProgramsPage(userId);
+        }
+
         private void ShowCustomerLoyaltyPage(int userId)
         {
             using (var context = new managementsystem_dbEntities())
@@ -63,7 +53,7 @@ namespace CustomerLoyaltyManagementSystem
                 {
                     CustomerLoyaltyPage customerLoyaltyPage = new CustomerLoyaltyPage(customer.CustomerID);
                     customerLoyaltyPage.Show(); // Show the Customer Loyalty Page
-                    this.Hide(); // Optionally hide the dashboard window
+                    this.Hide(); // Hide the dashboard window
                 }
                 else
                 {
@@ -72,5 +62,26 @@ namespace CustomerLoyaltyManagementSystem
             }
         }
 
+        private void ShowLoyaltyProgramsPage(int userId)
+        {
+            using (var context = new managementsystem_dbEntities())
+            {
+                var customer = context.Customers.SingleOrDefault(c => c.UserID == userId);
+                if (customer != null)
+                {
+                    string customerTier = customer.Tier ?? "DefaultTier";  // Default value if Tier is null
+                    int customerId = customer.CustomerID;
+
+                    // Pass CustomerID and Tier to LoyaltyPrograms page
+                    LoyaltyPrograms loyaltyPage = new LoyaltyPrograms(customerId, customerTier);
+                    loyaltyPage.Show(); // Show the Loyalty Programs Page
+                    this.Hide(); // Hide the dashboard window
+                }
+                else
+                {
+                    MessageBox.Show("Customer information not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
     }
 }

@@ -140,6 +140,10 @@
         HorizontalAlignment="Center" VerticalAlignment="Top" Click="RefreshButton_Click">
                     </Button>
 
+                    <!-- Return to Dashboard Button -->
+                    <Button Content="Return to Dashboard" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10"
+                Click="ReturnToDashboard_Click"/>
+
                 </StackPanel>
             </ScrollViewer>
         </DockPanel>

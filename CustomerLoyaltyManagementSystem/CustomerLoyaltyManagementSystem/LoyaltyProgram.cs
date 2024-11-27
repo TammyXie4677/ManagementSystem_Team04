@@ -26,6 +26,8 @@ namespace CustomerLoyaltyManagementSystem
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
         public string ProgramTier { get; set; }
+        public Nullable<int> Points { get; set; }
+        public string Tier { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TransactionLoyalty> TransactionLoyalties { get; set; }

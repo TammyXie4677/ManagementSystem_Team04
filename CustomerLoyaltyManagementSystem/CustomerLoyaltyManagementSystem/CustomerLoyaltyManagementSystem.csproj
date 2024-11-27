@@ -107,6 +107,9 @@
     <Compile Include="LoyaltyProgram.cs">
       <DependentUpon>LoyaltyDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="LoyaltyPrograms.xaml.cs">
+      <DependentUpon>LoyaltyPrograms.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Registration.xaml.cs">
       <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
@@ -149,6 +152,10 @@
     <Compile Include="CustomerLoyaltyPage.xaml.cs">
       <DependentUpon>CustomerLoyaltyPage.xaml</DependentUpon>
     </Compile>
+    <Page Include="LoyaltyPrograms.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

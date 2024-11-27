@@ -14,6 +14,7 @@
             </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem Header="_View Customer Loyalty" Click="OnViewCustomerLoyaltyButtonClick"/>
+                <MenuItem Header="_View Loyalty Programs" Click="OnViewLoyaltyProgramsButtonClick"/>
             </MenuItem>
             <MenuItem Header="_Help" Click="Help_Click"/>
         </Menu>

@@ -2,12 +2,14 @@
 using System.Data.SqlClient;
 using System.Windows;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CustomerLoyaltyManagementSystem
 {
     public partial class CustomerLoyaltyPage : Window
     {
         private int customerId;
+        private int userId;
 
         public CustomerLoyaltyPage(int customerId)
         {
@@ -309,5 +311,23 @@ namespace CustomerLoyaltyManagementSystem
             LoadCustomerData(); // Reload the customer data from the database
         }
 
+        // Event handler for the Return to Dashboard button
+        private void ReturnToDashboard_Click(object sender, RoutedEventArgs e)
+        {
+            using (var context = new managementsystem_dbEntities())
+            {
+                var customer = context.Customers.SingleOrDefault(c => c.CustomerID == customerId);
+                if (customer != null)
+                {
+
+                    // Open the customer dashboard (assuming CustomerDashboard is a class representing the dashboard)
+                    var customerDashboard = new CustomerDashboard((int)customer.UserID);
+                    customerDashboard.Show();
+                    // Close the current window
+                    this.Close();
+                }
+            }
+
+        }
     }
 }
