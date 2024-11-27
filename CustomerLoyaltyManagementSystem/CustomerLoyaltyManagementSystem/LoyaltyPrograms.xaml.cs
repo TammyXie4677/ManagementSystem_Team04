@@ -18,6 +18,7 @@ namespace CustomerLoyaltyManagementSystem
             _userTier = userTier;
             DataContext = this;  // Set DataContext to the window itself to bind UserTier in XAML
             LoadLoyaltyPrograms();
+            LoadCustomerLoyaltyPoints();
         }
 
         public string UserTier => _userTier;  // Property for binding user's tier in XAML
@@ -39,6 +40,23 @@ namespace CustomerLoyaltyManagementSystem
             }
         }
 
+        private void LoadCustomerLoyaltyPoints()
+        {
+            using (var context = new managementsystem_dbEntities())
+            {
+                var customer = context.Customers.SingleOrDefault(c => c.CustomerID == _customerId);
+                if (customer != null)
+                {
+                    TotalPointsTextBlock.Text = $"Total Points: {customer.LoyaltyPoints ?? 0}";
+                }
+                else
+                {
+                    MessageBox.Show("Unable to fetch customer information.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+
         private void EarnPoints_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
@@ -50,28 +68,38 @@ namespace CustomerLoyaltyManagementSystem
 
         private void RecordTransaction(int programId, int pointsEarned)
         {
-            // Assuming customer ID is available from logged-in user context
-            var customerId = _customerId;
-
-            // Create and save transaction record to database
-            var transaction = new TransactionLoyalty
-            {
-                CustomerID = customerId,
-                ProgramID = programId,
-                Date = DateTime.Now,
-                PointsEarned = pointsEarned,
-                PointsRedeemed = 0,
-                TransactionType = "Program"
-            };
-
             using (var context = new managementsystem_dbEntities())
             {
-                context.TransactionLoyalties.Add(transaction);
-                context.SaveChanges();
-            }
+                var customer = context.Customers.SingleOrDefault(c => c.CustomerID == _customerId);
+                if (customer != null)
+                {
+                    customer.LoyaltyPoints = (customer.LoyaltyPoints ?? 0) + pointsEarned;
 
-            MessageBox.Show($"You have earned {pointsEarned} points for completing Program {programId}!");
+                    var transaction = new TransactionLoyalty
+                    {
+                        CustomerID = _customerId,
+                        ProgramID = programId,
+                        Date = DateTime.Now,
+                        PointsEarned = pointsEarned,
+                        PointsRedeemed = 0,
+                        TransactionType = "Program"
+                    };
+
+                    context.TransactionLoyalties.Add(transaction);
+                    context.SaveChanges();
+
+                    // Update the total points displayed in the UI
+                    TotalPointsTextBlock.Text = $"Total Points: {customer.LoyaltyPoints}";
+
+                    MessageBox.Show($"You have earned {pointsEarned} points for completing Program {programId}!");
+                }
+                else
+                {
+                    MessageBox.Show("Customer information not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
+
 
 
         //private void UpdateCustomerPoints(int newTotalPoints)

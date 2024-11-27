@@ -3,8 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Loyalty Programs" Height="400" Width="600">
     <Grid>
+        <!-- Customer's total loyalty points -->
+        <TextBlock Name="TotalPointsTextBlock" 
+                   Text="Total Points: 0" 
+                   FontSize="16" 
+                   FontWeight="Bold" 
+                   HorizontalAlignment="Left" 
+                   VerticalAlignment="Top" 
+                   Margin="10"/>
+
         <!-- ListView to display loyalty programs -->
-        <ListView Name="ProgramsListView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
+        <ListView Name="ProgramsListView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,40,10,50">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Program Name" DisplayMemberBinding="{Binding ProgramName}" />
