@@ -5,22 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomerLoyaltyManagementSystem.Control"
         mc:Ignorable="d"
-        Title="CustomerDashboard" Height="800" Width="1000">
+        Title="Customer Dashboard" Height="312" Width="600">
 
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
+    <DockPanel Margin="0,0,0,32">
+        <!-- Menu Bar -->
+        <Menu DockPanel.Dock="Top" Background="#2E3B4E" Foreground="White">
             <MenuItem Header="_File">
-                <MenuItem Header="_Exit" Click="Exit_Click"/>
+                <MenuItem Header="_Exit" Click="Exit_Click" Background="#2E3B4E" Foreground="White"/>
             </MenuItem>
             <MenuItem Header="_Tools">
-                <MenuItem Header="_View Customer Loyalty" Click="OnViewCustomerLoyaltyButtonClick"/>
-                <MenuItem Header="_View Loyalty Programs" Click="OnViewLoyaltyProgramsButtonClick"/>
+                <MenuItem Header="_View Customer Loyalty" Click="OnViewCustomerLoyaltyButtonClick" Background="#2E3B4E" Foreground="White"/>
+                <MenuItem Header="_View Loyalty Programs" Click="OnViewLoyaltyProgramsButtonClick" Background="#2E3B4E" Foreground="White"/>
             </MenuItem>
             <MenuItem Header="_Help" Click="Help_Click"/>
         </Menu>
+
+        <!-- Main Content Area -->
+        <Grid DockPanel.Dock="Top" Margin="20">
+            <!-- Centered StackPanel to hold buttons -->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <!-- Button to view Customer Loyalty -->
+                <Button Content="View Customer Loyalty" Width="250" Height="60" Margin="0,0,0,20" Background="#4CAF50" Foreground="White" FontWeight="Bold" BorderBrush="#388E3C" BorderThickness="1" Click="OnViewCustomerLoyaltyButtonClick"/>
+
+                <!-- Button to view Loyalty Programs -->
+                <Button Content="View Loyalty Programs" Width="250" Height="60" Background="#FF9800" Foreground="White" FontWeight="Bold" BorderBrush="#F57C00" BorderThickness="1" Click="OnViewLoyaltyProgramsButtonClick"/>
+            </StackPanel>
+        </Grid>
+
         <!-- TextBlock for displaying email -->
-        <TextBlock Name="emailTextBlock" DockPanel.Dock="Bottom" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Text="Ready"/>
+        <TextBlock Name="emailTextBlock" DockPanel.Dock="Bottom" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" FontSize="14" Foreground="Gray" Text="Ready"/>
     </DockPanel>
 </Window>
-
-
