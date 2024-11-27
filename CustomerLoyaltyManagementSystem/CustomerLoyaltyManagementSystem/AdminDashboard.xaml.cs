@@ -49,8 +49,7 @@ namespace CustomerLoyaltyManagementSystem
 
         private void GenerateReports_Click(object sender, RoutedEventArgs e)
         {
-            // For testing
-            MessageBox.Show("Generate Reports button clicked!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            MainContent.Content = new ReportsControl();
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -62,13 +61,6 @@ namespace CustomerLoyaltyManagementSystem
         {
             MessageBox.Show("Help section is under construction.", "Help", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
-        /*
-        private void ReportsButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainContent.Content = new ReportsControl();
-        }
-        */
     }
 }
 
