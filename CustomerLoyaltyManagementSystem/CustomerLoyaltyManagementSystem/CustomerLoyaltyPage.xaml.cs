@@ -10,6 +10,9 @@ namespace CustomerLoyaltyManagementSystem
     {
         private int customerId;
         private int userId;
+        private int customerLoyaltyPoints;
+        private string customerTier;
+
 
         public CustomerLoyaltyPage(int customerId)
         {
@@ -48,6 +51,7 @@ namespace CustomerLoyaltyManagementSystem
                 MessageBox.Show("Error: " + ex.Message, "Database Connection Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        // Inside the LoadCustomerData method, after loading the redeemed points
         private void LoadCustomerData()
         {
             string connectionString = Environment.GetEnvironmentVariable("ENV_CONNECTION_STRING");
@@ -72,22 +76,29 @@ namespace CustomerLoyaltyManagementSystem
                         {
                             if (reader.Read())
                             {
-                                TotalEarnedPointsText.Text = reader["LoyaltyPoints"].ToString();
-                                TierText.Text = reader["Tier"].ToString();
-                                EmailText.Text = reader["Email"].ToString();
+                                customerLoyaltyPoints = Convert.ToInt32(reader["LoyaltyPoints"]);
+                                customerTier = reader["Tier"].ToString();
+                                string email = reader["Email"].ToString();
+
+                                TotalEarnedPointsText.Text = customerLoyaltyPoints.ToString();
+                                TierText.Text = customerTier;
+                                EmailText.Text = email;
+
+                                // Display points needed for the next tier
+                                DisplayPointsNeededForNextTier(customerLoyaltyPoints);
                             }
                         }
                     }
 
                     // Load total earned and redeemed points, and transaction history
                     string transactionQuery = @"
-                SELECT 
-                    SUM(CASE WHEN PointsEarned IS NOT NULL THEN PointsEarned ELSE 0 END) AS TotalEarnedPoints,
-                    SUM(CASE WHEN PointsRedeemed IS NOT NULL THEN PointsRedeemed ELSE 0 END) AS TotalRedeemedPoints,
-                    PointsEarned, PointsRedeemed, Date, TransactionType
-                FROM TransactionLoyalty
-                WHERE CustomerID = @CustomerID
-                GROUP BY Date, PointsEarned, PointsRedeemed, TransactionType";
+        SELECT 
+            SUM(CASE WHEN PointsEarned IS NOT NULL THEN PointsEarned ELSE 0 END) AS TotalEarnedPoints,
+            SUM(CASE WHEN PointsRedeemed IS NOT NULL THEN PointsRedeemed ELSE 0 END) AS TotalRedeemedPoints,
+            PointsEarned, PointsRedeemed, Date, TransactionType
+        FROM TransactionLoyalty
+        WHERE CustomerID = @CustomerID
+        GROUP BY Date, PointsEarned, PointsRedeemed, TransactionType";
 
                     List<TransactionLoyalty> transactions = new List<TransactionLoyalty>();
                     decimal totalRedeemed = 0;
@@ -101,7 +112,6 @@ namespace CustomerLoyaltyManagementSystem
                         {
                             while (transactionReader.Read())
                             {
-                                // Calculate total earned and redeemed points
                                 totalEarned += transactionReader.IsDBNull(0) ? 0 : Convert.ToDecimal(transactionReader["TotalEarnedPoints"]);
                                 totalRedeemed += transactionReader.IsDBNull(1) ? 0 : Convert.ToDecimal(transactionReader["TotalRedeemedPoints"]);
 
@@ -110,10 +120,8 @@ namespace CustomerLoyaltyManagementSystem
                                     PointsEarned = transactionReader.IsDBNull(2) ? 0 : Convert.ToInt32(transactionReader["PointsEarned"]),
                                     PointsRedeemed = transactionReader.IsDBNull(3) ? 0 : Convert.ToInt32(transactionReader["PointsRedeemed"]),
                                     TransactionType = transactionReader["TransactionType"].ToString(),
-                                    Date = transactionReader.IsDBNull(4) ? (DateTime?)null : transactionReader.GetDateTime(4) // Correctly handle nullable DateTime
+                                    Date = transactionReader.IsDBNull(4) ? (DateTime?)null : transactionReader.GetDateTime(4)
                                 });
-
-
                             }
                         }
                     }
@@ -122,14 +130,14 @@ namespace CustomerLoyaltyManagementSystem
                     TransactionHistoryList.ItemsSource = transactions;
 
                     // Set Total Earned and Redeemed Points in the UI
-                    //TotalEarnedPointsText.Text = totalEarned.ToString();
                     TotalRedeemedPointsText.Text = totalRedeemed.ToString();
 
                     // Calculate and display redeemable value
-                    int loyaltyPoints = int.Parse(TotalEarnedPointsText.Text);
-                    string tier = TierText.Text;
-                    double redeemableValue = CalculateRedeemableValue(loyaltyPoints, tier);
+                    double redeemableValue = CalculateRedeemableValue(customerLoyaltyPoints, customerTier);
                     RedeemableValueText.Text = $"${redeemableValue:F2}";
+
+                    // Display the total value redeemed
+                    DisplayTotalValueRedeemed(totalRedeemed, customerTier);
                 }
             }
             catch (SqlException ex)
@@ -141,6 +149,33 @@ namespace CustomerLoyaltyManagementSystem
                 MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
+        private void DisplayPointsNeededForNextTier(int currentPoints)
+{
+    int pointsNeeded = 0;
+    string nextTier = string.Empty;
+
+    // Determine next tier based on current points
+    if (currentPoints < 200)
+    {
+        nextTier = "Gold";
+        pointsNeeded = 200 - currentPoints;  // 200 points required to reach Gold
+    }
+    else if (currentPoints >= 200 && currentPoints < 400)
+    {
+        nextTier = "Platinum";
+        pointsNeeded = 400 - currentPoints;  // 400 points required to reach Platinum
+    }
+    else
+    {
+        nextTier = "Max Tier (Platinum)";  // Already at Platinum or above
+        pointsNeeded = 0;  // No more points needed
+    }
+
+    // Update the UI with the points needed for the next tier
+    PointsNeededForNextTierText.Text = $"{pointsNeeded} points needed to reach {nextTier}.";
+}
 
 
 
@@ -160,15 +195,14 @@ namespace CustomerLoyaltyManagementSystem
             }
         }
 
-
-
-
-        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        // Method to display the total value redeemed based on points and tier
+        private void DisplayTotalValueRedeemed(decimal totalRedeemedPoints, string tier)
         {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-            this.Close();
+            double totalRedeemedValue = CalculateRedeemableValue((int)totalRedeemedPoints, tier);
+            TotalRedeemedValueText.Text = $"${totalRedeemedValue:F2}";
         }
+
+
 
         private void RedeemButton_Click(object sender, RoutedEventArgs e)
         {
@@ -221,11 +255,7 @@ namespace CustomerLoyaltyManagementSystem
 
             // Update the UI to reflect the new total points
             TotalEarnedPointsText.Text = newTotalPoints.ToString();
-
-            //MessageBox.Show("Points redeemed successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
-
 
         private void CreateRedemptionTransaction(int pointsRedeemed)
         {
