@@ -24,6 +24,17 @@ namespace CustomerLoyaltyManagementSystem
         public AdminDashboard()
         {
             InitializeComponent();
+            DisplayUserEmail();
+        }
+
+        private void DisplayUserEmail()
+        {
+            // Fetch email from session
+            string userEmail = Application.Current.Properties["Email"] as string;
+            if (!string.IsNullOrEmpty(userEmail))
+            {
+                emailTextBlock.Text = $"Logged in as: {userEmail}";
+            }
         }
 
         private void ManagePrograms_Click(object sender, RoutedEventArgs e)
@@ -42,9 +53,9 @@ namespace CustomerLoyaltyManagementSystem
             MessageBox.Show("Generate Reports button clicked!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e) 
-        { 
-            this.Close(); 
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         private void Help_Click(object sender, RoutedEventArgs e)
@@ -52,13 +63,12 @@ namespace CustomerLoyaltyManagementSystem
             MessageBox.Show("Help section is under construction.", "Help", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-
-
-   /*
-
-private void ReportsButton_Click(object sender, RoutedEventArgs e)
-{
-MainContent.Content = new ReportsControl();
-}*/
+        /*
+        private void ReportsButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new ReportsControl();
+        }
+        */
     }
 }
+

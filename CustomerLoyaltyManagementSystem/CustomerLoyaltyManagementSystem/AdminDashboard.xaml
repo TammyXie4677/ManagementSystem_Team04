@@ -7,8 +7,14 @@
         mc:Ignorable="d"
         Title="AdminDashboard" Height="800" Width="1000">
 
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
             <MenuItem Header="_File">
                 <MenuItem Header="_Exit" Click="Exit_Click"/>
             </MenuItem>
@@ -22,7 +28,11 @@
             </MenuItem>
             <MenuItem Header="_Help" Click="Help_Click"></MenuItem>
         </Menu>
+
         <!-- Main Content Area -->
-        <ContentControl Name="MainContent" Margin="20"/>
-    </DockPanel>
+        <ContentControl Name="MainContent" Grid.Row="1" Margin="20"/>
+
+        <!-- TextBlock for displaying email -->
+        <TextBlock Name="emailTextBlock" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Text="Ready"/>
+    </Grid>
 </Window>

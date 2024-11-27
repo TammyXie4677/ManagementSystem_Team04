@@ -17,6 +17,8 @@
             </MenuItem>
             <MenuItem Header="_Help" Click="Help_Click"/>
         </Menu>
+        <!-- TextBlock for displaying email -->
+        <TextBlock Name="emailTextBlock" DockPanel.Dock="Bottom" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Text="Ready"/>
     </DockPanel>
 </Window>
 

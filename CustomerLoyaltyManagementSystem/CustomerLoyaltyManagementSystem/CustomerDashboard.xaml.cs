@@ -22,8 +22,18 @@ namespace CustomerLoyaltyManagementSystem
         public CustomerDashboard()
         {
             InitializeComponent();
+            DisplayUserEmail();
         }
 
+        private void DisplayUserEmail()
+        { 
+            // Fetch email from session
+            string userEmail = Application.Current.Properties["Email"] as string; 
+            if (!string.IsNullOrEmpty(userEmail)) 
+            { 
+                emailTextBlock.Text = $"Logged in as: {userEmail}";
+            } 
+        }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
